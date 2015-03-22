@@ -302,6 +302,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36BE04C41ABB8A10005BAA36 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				36C667341A98481700906C28 /* LetterView.h */,
+				36C667351A98481700906C28 /* LetterView.m */,
+				36C6673E1A9854BB00906C28 /* LetterBox.h */,
+				36C6673F1A9854BB00906C28 /* LetterBox.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		5B12100D197483EE004C1E1D /* res */ = {
 			isa = PBXGroup;
 			children = (
@@ -471,10 +482,7 @@
 				B7378993180767190076A88C /* MainScene.m */,
 				36C667411A9912FB00906C28 /* Gameplay.h */,
 				36C667421A9912FB00906C28 /* Gameplay.m */,
-				36C667341A98481700906C28 /* LetterView.h */,
-				36C667351A98481700906C28 /* LetterView.m */,
-				36C6673E1A9854BB00906C28 /* LetterBox.h */,
-				36C6673F1A9854BB00906C28 /* LetterBox.m */,
+				36BE04C41ABB8A10005BAA36 /* Views */,
 				D352B48019EC608A00829775 /* MetalShaders */,
 			);
 			name = Source;

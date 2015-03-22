@@ -22,6 +22,8 @@
 {
     [super onEnter];
     
+    NSLog(@"enter gameplay");
+    
     [self setupLetters];
     
     [self setupLetterBox];
