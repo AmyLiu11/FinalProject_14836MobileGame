@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36BE04D81ABF6E16005BAA36 /* PlayModeSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04D71ABF6E16005BAA36 /* PlayModeSelection.m */; };
+		36BE04DB1ABF825A005BAA36 /* SpeedMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04DA1ABF825A005BAA36 /* SpeedMode.m */; };
+		36BE04DE1ABF82FC005BAA36 /* HangmanMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04DD1ABF82FC005BAA36 /* HangmanMode.m */; };
+		36BE04E31ABF88DC005BAA36 /* leveleasy.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36BE04E01ABF88DC005BAA36 /* leveleasy.plist */; };
+		36BE04E41ABF88DC005BAA36 /* levelmedium.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36BE04E11ABF88DC005BAA36 /* levelmedium.plist */; };
+		36BE04E51ABF88DC005BAA36 /* levelhard.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36BE04E21ABF88DC005BAA36 /* levelhard.plist */; };
+		36BE04E81ABF8B13005BAA36 /* LevelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04E71ABF8B13005BAA36 /* LevelModel.m */; };
 		36C667361A98481700906C28 /* LetterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C667351A98481700906C28 /* LetterView.m */; };
 		36C667401A9854BB00906C28 /* LetterBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C6673F1A9854BB00906C28 /* LetterBox.m */; };
 		36C667431A9912FB00906C28 /* Gameplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C667421A9912FB00906C28 /* Gameplay.m */; };
@@ -171,6 +178,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		36BE04D61ABF6E16005BAA36 /* PlayModeSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayModeSelection.h; path = Source/PlayModeSelection.h; sourceTree = "<group>"; };
+		36BE04D71ABF6E16005BAA36 /* PlayModeSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayModeSelection.m; path = Source/PlayModeSelection.m; sourceTree = "<group>"; };
+		36BE04D91ABF825A005BAA36 /* SpeedMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpeedMode.h; path = Source/SpeedMode.h; sourceTree = "<group>"; };
+		36BE04DA1ABF825A005BAA36 /* SpeedMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SpeedMode.m; path = Source/SpeedMode.m; sourceTree = "<group>"; };
+		36BE04DC1ABF82FC005BAA36 /* HangmanMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HangmanMode.h; path = Source/HangmanMode.h; sourceTree = "<group>"; };
+		36BE04DD1ABF82FC005BAA36 /* HangmanMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HangmanMode.m; path = Source/HangmanMode.m; sourceTree = "<group>"; };
+		36BE04E01ABF88DC005BAA36 /* leveleasy.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = leveleasy.plist; sourceTree = "<group>"; };
+		36BE04E11ABF88DC005BAA36 /* levelmedium.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = levelmedium.plist; sourceTree = "<group>"; };
+		36BE04E21ABF88DC005BAA36 /* levelhard.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = levelhard.plist; sourceTree = "<group>"; };
+		36BE04E61ABF8B13005BAA36 /* LevelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LevelModel.h; path = Source/LevelModel.h; sourceTree = "<group>"; };
+		36BE04E71ABF8B13005BAA36 /* LevelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LevelModel.m; path = Source/LevelModel.m; sourceTree = "<group>"; };
 		36C667341A98481700906C28 /* LetterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LetterView.h; path = Source/LetterView.h; sourceTree = "<group>"; };
 		36C667351A98481700906C28 /* LetterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LetterView.m; path = Source/LetterView.m; sourceTree = "<group>"; };
 		36C6673E1A9854BB00906C28 /* LetterBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LetterBox.h; sourceTree = "<group>"; };
@@ -311,6 +329,29 @@
 				36C6673F1A9854BB00906C28 /* LetterBox.m */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		36BE04DF1ABF8306005BAA36 /* levels */ = {
+			isa = PBXGroup;
+			children = (
+				36BE04DC1ABF82FC005BAA36 /* HangmanMode.h */,
+				36BE04DD1ABF82FC005BAA36 /* HangmanMode.m */,
+				36BE04D91ABF825A005BAA36 /* SpeedMode.h */,
+				36BE04DA1ABF825A005BAA36 /* SpeedMode.m */,
+			);
+			name = levels;
+			sourceTree = "<group>";
+		};
+		36BE04E91ABF8B1F005BAA36 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				36BE04E61ABF8B13005BAA36 /* LevelModel.h */,
+				36BE04E71ABF8B13005BAA36 /* LevelModel.m */,
+				36BE04E01ABF88DC005BAA36 /* leveleasy.plist */,
+				36BE04E11ABF88DC005BAA36 /* levelmedium.plist */,
+				36BE04E21ABF88DC005BAA36 /* levelhard.plist */,
+			);
+			name = model;
 			sourceTree = "<group>";
 		};
 		5B12100D197483EE004C1E1D /* res */ = {
@@ -480,8 +521,12 @@
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				B7378992180767190076A88C /* MainScene.h */,
 				B7378993180767190076A88C /* MainScene.m */,
+				36BE04D61ABF6E16005BAA36 /* PlayModeSelection.h */,
+				36BE04D71ABF6E16005BAA36 /* PlayModeSelection.m */,
 				36C667411A9912FB00906C28 /* Gameplay.h */,
 				36C667421A9912FB00906C28 /* Gameplay.m */,
+				36BE04E91ABF8B1F005BAA36 /* model */,
+				36BE04DF1ABF8306005BAA36 /* levels */,
 				36BE04C41ABB8A10005BAA36 /* Views */,
 				D352B48019EC608A00829775 /* MetalShaders */,
 			);
@@ -790,6 +835,7 @@
 				B71F5919188484E7003F4D28 /* Settings.png in Resources */,
 				B7378978180762440076A88C /* Default@2x.png in Resources */,
 				B71F5914188484E7003F4D28 /* iPad@2x.png in Resources */,
+				36BE04E51ABF88DC005BAA36 /* levelhard.plist in Resources */,
 				B71F5913188484E7003F4D28 /* iPad.png in Resources */,
 				B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */,
 				B71F5916188484E7003F4D28 /* iPhone-old@2x.png in Resources */,
@@ -798,10 +844,12 @@
 				B7378976180762440076A88C /* Default-Landscape~ipad.png in Resources */,
 				B71F5915188484E7003F4D28 /* iPhone-old.png in Resources */,
 				B71F5917188484E7003F4D28 /* iPhone.png in Resources */,
+				36BE04E41ABF88DC005BAA36 /* levelmedium.plist in Resources */,
 				B7378975180762440076A88C /* Default-568h@2x.png in Resources */,
 				B71F5918188484E7003F4D28 /* iPhone@2x.png in Resources */,
 				B7378977180762440076A88C /* Default.png in Resources */,
 				B71F5911188484E7003F4D28 /* iPad-old.png in Resources */,
+				36BE04E31ABF88DC005BAA36 /* leveleasy.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,10 +934,14 @@
 			files = (
 				B73789871807631A0076A88C /* main.m in Sources */,
 				36C667401A9854BB00906C28 /* LetterBox.m in Sources */,
+				36BE04DE1ABF82FC005BAA36 /* HangmanMode.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */,
 				36C667361A98481700906C28 /* LetterView.m in Sources */,
+				36BE04DB1ABF825A005BAA36 /* SpeedMode.m in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 				36C667431A9912FB00906C28 /* Gameplay.m in Sources */,
+				36BE04E81ABF8B13005BAA36 /* LevelModel.m in Sources */,
+				36BE04D81ABF6E16005BAA36 /* PlayModeSelection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
