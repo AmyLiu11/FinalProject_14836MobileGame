@@ -20,4 +20,22 @@
     return fmax(screenSize.width, screenSize.height);
 }
 
++ (NSString *)dateInFormat:(time_t)dateTime format:(NSString*) stringFormat
+
+{
+    
+    char buffer[80];
+    
+    const char *format = [stringFormat UTF8String];
+    
+    struct tm * timeinfo;
+    
+    timeinfo = localtime(&dateTime);
+    
+    strftime(buffer, 80, format, timeinfo);
+    
+    return [NSString  stringWithCString:buffer encoding:NSUTF8StringEncoding];
+    
+}
+
 @end

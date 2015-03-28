@@ -20,6 +20,8 @@
 @property (nonatomic, assign) CGFloat lastLetterYPos;
 @property (nonatomic, strong) NSString * beforeString;
 @property (nonatomic, strong) NSString * afterString;
+@property (nonatomic, assign) NSUInteger totalScore;
+@property (nonatomic, assign) CCTime countDown;
 
 @end
 
@@ -28,7 +30,7 @@
     CCTimer *_timer;
     CCLabelTTF *_timeLabel;
     CCLabelTTF *_scoreLabel;
-    CCNode * _letterNode;
+    CCNode * _contentNode;
 }
 
 
@@ -51,12 +53,17 @@
     self.index = wordIndex;
     self.speedModel = [LevelModel modelWithLevel:level];
     self.boxArray = [NSMutableArray array];
+    self.completeString = [NSMutableString string];
+    self.countDown = self.speedModel.timeToSolve;
     
     NSArray * wordArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
     self.beforeString = [wordArr objectAtIndex:0];
     self.afterString = [wordArr objectAtIndex:1];
     [_scoreLabel setColor:[CCColor redColor]];
     [_timeLabel setColor:[CCColor redColor]];
+    _timeLabel.string = [self transTime];
+    
+    [self schedule:@selector(updateTimeAndScore) interval:1.0f];
     
     [self setupLetters];
     
@@ -83,10 +90,12 @@
             lastX = LETTERBOX_X_GAP;
             self.lastLetterYPos -= (LETTERBOX_Y_GAP + LETTER_LENGTH);
         }
-        LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:ccp(lastX, self.lastLetterYPos)];
+        CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
+        CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
+        LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:contentPoint];
         letter.dragDelegate = self;
         lastX += LETTER_LENGTH;
-        [self addChild:letter];
+        [_contentNode addChild:letter];
     }
 }
 
@@ -109,16 +118,18 @@
             lastX = LETTERBOX_X_GAP;
             self.lastLetterYPos += (LETTERBOX_Y_GAP + LETTER_LENGTH);
         }
-        LetterBox * box = [[LetterBox alloc] initWithPosition:ccp(lastX, self.lastLetterYPos) withLetter:[tempArr objectAtIndex:i]];
+        CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
+        CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
+        LetterBox * box = [[LetterBox alloc] initWithPosition:contentPoint withLetter:[tempArr objectAtIndex:i]];
         lastX += LETTER_LENGTH;
-        [self addChild:box];
+        [_contentNode addChild:box];
         [self.boxArray addObject:box];
     }
     
 }
 
 - (void)clear{
-    [self removeAllChildrenWithCleanup:YES];
+    [_contentNode removeAllChildrenWithCleanup:YES];
 }
 
 - (void)letterView:(LetterView *)letterView didDragToPoint:(CGPoint)point{
@@ -181,6 +192,18 @@
     
 }
 
+- (void)updateTimeAndScore{
+    self.countDown--;
+    _timeLabel.string = [self transTime];
+    _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
+    
+}
+
+- (NSString *)transTime{
+    NSString  *format = @"%M:%S";
+    NSString  *time = [Utils dateInFormat:(time_t)self.countDown format:format];
+    return time;
+}
 
 
 

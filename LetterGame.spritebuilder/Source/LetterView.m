@@ -24,7 +24,7 @@
         CGSize letterViewSize = self.contentSize;
         
         //add a letter on top
-        CCLabelTTF * letterlabel = [CCLabelTTF labelWithString:letter fontName:@"Verdana-Bold" fontSize:200.0*LETTER_SCALESIZE];
+        CCLabelTTF * letterlabel = [CCLabelTTF labelWithString:letter fontName:@"Verdana-Bold" fontSize:LETTER_SIZE*LETTER_SCALESIZE];
         letterlabel.position =  ccp(letterViewSize.width/2, letterViewSize.height/2);
         letterlabel.userInteractionEnabled = TRUE;
         [self addChild:letterlabel];
