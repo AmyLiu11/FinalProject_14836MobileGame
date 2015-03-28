@@ -7,6 +7,7 @@
 //
 
 #import "LetterView.h"
+#import "LGDefines.h"
 
 @implementation LetterView{
     int _xOffset;
@@ -17,14 +18,13 @@
 -(id)initWithLetter:(NSString*)letter andPosition:(CGPoint)position{
     self = [super initWithImageNamed:@"LetterGameAssets/tile.png"];
     if(self != nil){
-        float scaleSize = 0.5f;
-        self.scale = scaleSize;
+        self.scale = LETTER_SCALESIZE;
         self.position = position;
         self.letter = letter;
         CGSize letterViewSize = self.contentSize;
         
         //add a letter on top
-        CCLabelTTF * letterlabel = [CCLabelTTF labelWithString:letter fontName:@"Verdana-Bold" fontSize:200.0*scaleSize];
+        CCLabelTTF * letterlabel = [CCLabelTTF labelWithString:letter fontName:@"Verdana-Bold" fontSize:200.0*LETTER_SCALESIZE];
         letterlabel.position =  ccp(letterViewSize.width/2, letterViewSize.height/2);
         letterlabel.userInteractionEnabled = TRUE;
         [self addChild:letterlabel];

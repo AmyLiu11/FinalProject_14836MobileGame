@@ -7,10 +7,19 @@
 //
 
 #import "SpeedMode.h"
+#import "LetterBox.h"
+#import "LGDefines.h"
+#import "Utils.h"
+
 
 @interface SpeedMode()
 
 @property (nonatomic, assign) NSUInteger index;
+@property (nonatomic, strong) NSMutableArray * boxArray;
+@property (nonatomic, strong) NSMutableString * completeString;
+@property (nonatomic, assign) CGFloat lastLetterYPos;
+@property (nonatomic, strong) NSString * beforeString;
+@property (nonatomic, strong) NSString * afterString;
 
 @end
 
@@ -19,6 +28,7 @@
     CCTimer *_timer;
     CCLabelTTF *_timeLabel;
     CCLabelTTF *_scoreLabel;
+    CCNode * _letterNode;
 }
 
 
@@ -40,10 +50,21 @@
     
     self.index = wordIndex;
     self.speedModel = [LevelModel modelWithLevel:level];
+    self.boxArray = [NSMutableArray array];
+    
+    NSArray * wordArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
+    self.beforeString = [wordArr objectAtIndex:0];
+    self.afterString = [wordArr objectAtIndex:1];
+    [_scoreLabel setColor:[CCColor redColor]];
+    [_timeLabel setColor:[CCColor redColor]];
     
     [self setupLetters];
     
     [self setupLetterBox];
+    
+    if (!_timer) {
+         _timer = [[CCTimer alloc] init];
+    }
     
     //    self.userInteractionEnabled = TRUE;
 }
@@ -51,13 +72,20 @@
 
 
 - (void)setupLetters{
-    NSString * word = [self.speedModel.anagramPairs objectAtIndex:self.index];
-    NSMutableArray * tempArr = [self splitWord:word];
-    
-    for (int i = 0 ; i < (int)word.length; i++) {
+    NSMutableArray * tempArr = [self splitWord:self.beforeString];
+
+    CGFloat lastX = LETTERBOX_X_GAP;
+//    self.lastLetterYPos = _scoreLabel.boundingBox.origin.y + _scoreLabel.boundingBox.size.height + LETTERBOX_Y_GAP;
+    self.lastLetterYPos = LETTER_INITIAL_Y;
+    for (int i = 0 ; i < (int)self.beforeString.length; i++) {
         NSString * lette = [tempArr objectAtIndex:i];
-        LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:ccp(10 + 100 * i, 100)];
+        if(lastX + LETTER_LENGTH > [Utils getScreenWidth]){
+            lastX = LETTERBOX_X_GAP;
+            self.lastLetterYPos -= (LETTERBOX_Y_GAP + LETTER_LENGTH);
+        }
+        LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:ccp(lastX, self.lastLetterYPos)];
         letter.dragDelegate = self;
+        lastX += LETTER_LENGTH;
         [self addChild:letter];
     }
 }
@@ -72,14 +100,25 @@
 }
 
 - (void)setupLetterBox{
-    NSMutableArray * tempArr = [NSMutableArray arrayWithObjects:@"a",@"p",@"p",@"l",@"e",nil];
+    NSMutableArray * tempArr = [self splitWord:self.afterString];
     
-    for (int i = 0 ; i < 5 ; i++){
-        LetterBox * box = [[LetterBox alloc] initWithPosition:ccp(50 + 100 * i, 200) withLetter:[tempArr objectAtIndex:i]];
+    CGFloat lastX = LETTERBOX_X_GAP;
+    self.lastLetterYPos -= LETTER_BOX_GAP;
+    for (int i = 0 ; i < (int)self.afterString.length ; i++){
+        if(lastX + LETTER_LENGTH > [Utils getScreenWidth]){
+            lastX = LETTERBOX_X_GAP;
+            self.lastLetterYPos += (LETTERBOX_Y_GAP + LETTER_LENGTH);
+        }
+        LetterBox * box = [[LetterBox alloc] initWithPosition:ccp(lastX, self.lastLetterYPos) withLetter:[tempArr objectAtIndex:i]];
+        lastX += LETTER_LENGTH;
         [self addChild:box];
         [self.boxArray addObject:box];
     }
     
+}
+
+- (void)clear{
+    [self removeAllChildrenWithCleanup:YES];
 }
 
 - (void)letterView:(LetterView *)letterView didDragToPoint:(CGPoint)point{
@@ -100,16 +139,22 @@
             
             [self.completeString appendString:letterView.letter];
             [self placeLetter:letterView atTarget:targetView];
-            if ([self.completeString isEqualToString:@"apple"]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Game Over" message:@"congratulations!You successfully spell the word 'apple'!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-                [alert show];
+            if ([self.completeString isEqualToString:self.afterString]) {
+                if (self.index == self.speedModel.anagramPairs.count) {
+                    NSLog(@"nextLevel");
+                    self.index = 0;
+                }
+                [self clear];
+                self.index++;
                 [self.completeString setString:@""];
+                NSMutableArray * tempArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
+                self.beforeString = [tempArr objectAtIndex:0];
+                self.afterString = [tempArr objectAtIndex:1];
             }
             
         } else {
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wrong Step!" message:@"Please take another step" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-            [alert show];
+            
             
         }
     }

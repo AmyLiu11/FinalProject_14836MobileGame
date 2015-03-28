@@ -7,13 +7,14 @@
 //
 
 #import "LetterBox.h"
+#import "LGDefines.h"
 
 @implementation LetterBox
 
 -(instancetype)initWithPosition:(CGPoint)position withLetter:(NSString *)letter{
     self = [super initWithImageNamed:@"LetterGameAssets/slot.png"];
     if (self != nil) {
-        float scaleSize = 0.5f;
+        float scaleSize = LETTER_SCALESIZE;
         self.scale = scaleSize;
         self.letter = letter;
         self.position = position;
