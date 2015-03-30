@@ -11,11 +11,10 @@
 
 @implementation LetterBox
 
--(instancetype)initWithPosition:(CGPoint)position withLetter:(NSString *)letter{
+-(instancetype)initWithPosition:(CGPoint)position withLetter:(NSString *)letter withScale:(float)scale{
     self = [super initWithImageNamed:@"LetterGameAssets/slot.png"];
     if (self != nil) {
-        float scaleSize = LETTER_SCALESIZE;
-        self.scale = scaleSize;
+        self.scale = scale;
         self.letter = letter;
         self.position = position;
     }

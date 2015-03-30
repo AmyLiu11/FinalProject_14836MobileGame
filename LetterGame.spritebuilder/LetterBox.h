@@ -11,5 +11,5 @@
 @interface LetterBox : CCSprite
 @property (strong,nonatomic) NSString * letter;
 
--(instancetype)initWithPosition:(CGPoint)position withLetter:(NSString *)letter;
+-(instancetype)initWithPosition:(CGPoint)position withLetter:(NSString *)letter withScale:(float)scale;
 @end

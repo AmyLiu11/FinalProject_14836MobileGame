@@ -9,6 +9,6 @@
 #import "CCNode.h"
 #import "LetterView.h"
 
-@interface Gameplay : CCNode<LetterDragDelegationProtocol>
+@interface Gameplay : CCNode
 
 @end

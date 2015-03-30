@@ -20,6 +20,6 @@
 @property (weak, nonatomic) id<LetterDragDelegationProtocol> dragDelegate;
 @property (strong,nonatomic) NSString * letter;
 
--(instancetype)initWithLetter:(NSString*)letter andPosition:(CGPoint)position;
+-(instancetype)initWithLetter:(NSString*)letter andPosition:(CGPoint)position andScale:(float)scale;
 
 @end

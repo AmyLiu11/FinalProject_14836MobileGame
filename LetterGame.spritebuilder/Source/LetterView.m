@@ -15,10 +15,11 @@
 }
 
 
--(id)initWithLetter:(NSString*)letter andPosition:(CGPoint)position{
+-(id)initWithLetter:(NSString*)letter andPosition:(CGPoint)position andScale:(float)scale{
     self = [super initWithImageNamed:@"LetterGameAssets/tile.png"];
     if(self != nil){
-        self.scale = LETTER_SCALESIZE;
+        self.scale = scale;
+        NSLog(@"width %f, height %f", self.boundingBox.size.width, self.boundingBox.size.height);
         self.position = position;
         self.letter = letter;
         CGSize letterViewSize = self.contentSize;
