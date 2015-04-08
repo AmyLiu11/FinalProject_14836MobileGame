@@ -5,8 +5,8 @@
 	<key>anagrams</key>
 	<array>
 		<array>
-			<string>debit card</string>
-			<string>bad credit</string>
+			<string>dormitory</string>
+			<string>dirty room</string>
 		</array>
 		<array>
 			<string>tired nerves</string>
@@ -21,8 +21,12 @@
 			<string>no wire unsent</string>
 		</array>
 		<array>
-			<string>schoolmaster</string>
-			<string>the classroom</string>
+			<string>Fourth of July</string>
+			<string>joyful fourth</string>
+		</array>
+		<array>
+			<string>signature</string>
+			<string>a true sign</string>
 		</array>
 	</array>
 	<key>timeToSolve</key>

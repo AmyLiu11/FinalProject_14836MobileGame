@@ -23,6 +23,8 @@
 @property (nonatomic, assign) NSUInteger totalScore;
 @property (nonatomic, assign) CCTime countDown;
 @property (nonatomic, assign) BOOL hasMoreWords;
+@property (nonatomic, assign) CGFloat comboletterLength;
+@property (nonatomic, strong) NSString * level;
 
 @end
 
@@ -40,19 +42,22 @@
     [super onEnter];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString * level = [userDefaults stringForKey:@"level"];
-    NSUInteger wordIndex = [userDefaults integerForKey:@"index"];
+    NSString * level = [userDefaults stringForKey:LEVEL_KEY];
+    NSNumber * wordIndex = [userDefaults objectForKey:INDEX_KEY];
     
     if (!level) {
-        level = @"easy";
+        self.level = @"easy";
+    }else{
+        self.level = level;
     }
     
     if (!wordIndex) {
-        wordIndex = 0;
+        self.index = 0;
+    }else{
+        self.index = [wordIndex integerValue];
     }
     
-    self.index = wordIndex;
-    self.speedModel = [LevelModel modelWithLevel:level];
+    self.speedModel = [LevelModel modelWithLevel:self.level];
     self.boxArray = [NSMutableArray array];
     self.completeString = [NSMutableString string];
     self.countDown = self.speedModel.timeToSolve;
@@ -82,35 +87,45 @@
 
 - (void)setupLetters{
     NSArray * wordArr = [self.beforeString componentsSeparatedByString:@" "];
-    CGFloat letterLength = [self calculateLetterLength:self.beforeString];
-    CGFloat lastX = LETTERBOX_X_GAP * 4;
+    CGFloat lastX = LETTERBOX_X_GAP;
+    if (wordArr.count > 0) {
+        self.hasMoreWords = YES;
+    }else{
+        self.hasMoreWords  = NO;
+    }
     
     self.lastLetterYPos = LETTER_INITIAL_Y;
     if (!self.hasMoreWords) {
+        self.comboletterLength = [self calculateLetterLength:self.beforeString];
+        CGFloat letterGap = [self calculateLetterGap:self.beforeString];
         NSMutableArray * tempArr = [self splitWord:self.beforeString];
         for (int i = 0 ; i < (int)self.beforeString.length; i++) {
             NSString * lette = [tempArr objectAtIndex:i];
             CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
             CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
-            LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:contentPoint andScale:(letterLength / (LETTER_LENGTH * 2))];
+            LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:contentPoint andScale:(self.comboletterLength / (LETTER_LENGTH * 2))];
             letter.dragDelegate = self;
-            lastX += (letterLength + LETTERBOX_BETWEEN_GAP);
+            lastX += (self.comboletterLength + letterGap);
             [_contentNode addChild:letter];
         }
     }else{
+        CGFloat beforeletterLength = [self calculateLetterLength:self.beforeString];
+        CGFloat afterletterLength = [self calculateLetterLength:self.afterString];
+        self.comboletterLength = beforeletterLength < afterletterLength ? beforeletterLength : afterletterLength;
         for (int j = 0; j < (int)wordArr.count; j++) {
             NSString * str = [wordArr objectAtIndex:j];
             NSMutableArray * temArr = [self splitWord:str];
+            CGFloat letterGap = [self calculateLetterGap:str];
             if (j > 0) {
-                lastX = LETTERBOX_X_GAP * 4;
-                self.lastLetterYPos -= (LETTERBOX_Y_GAP + letterLength);
+                lastX = LETTERBOX_X_GAP;
+                self.lastLetterYPos -= (LETTERBOX_Y_GAP + self.comboletterLength);
             }
             for (int i = 0 ; i < (int)str.length; i++) {
                 CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
                 CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
-                LetterView * letter = [[LetterView alloc] initWithLetter:[temArr objectAtIndex:i] andPosition:contentPoint andScale:(letterLength / (LETTER_LENGTH * 2))];
+                LetterView * letter = [[LetterView alloc] initWithLetter:[temArr objectAtIndex:i] andPosition:contentPoint andScale:(self.comboletterLength / (LETTER_LENGTH * 2))];
                 letter.dragDelegate = self;
-                lastX += (letterLength + LETTERBOX_BETWEEN_GAP);
+                lastX += (self.comboletterLength + letterGap);
                 [_contentNode addChild:letter];
             }
         }
@@ -129,12 +144,12 @@
 
 - (void)setupLetterBox{
     NSArray * wordArr = [self.afterString componentsSeparatedByString:@" "];
-    CGFloat letterBoxLength = [self calculateLetterLength:self.afterString];
-    
-    CGFloat lastX = LETTERBOX_X_GAP * 4;
+    CGFloat lastX = LETTERBOX_X_GAP;
     self.lastLetterYPos -= LETTER_BOX_GAP;
     
     if (!self.hasMoreWords) {
+        CGFloat letterBoxLength = [self calculateLetterLength:self.afterString];
+        CGFloat letterGap = [self calculateLetterGap:self.beforeString];
         NSMutableArray * tempArr = [self splitWord:self.afterString];
         for (int i = 0 ; i < (int)self.afterString.length ; i++){
             NSString * str = [tempArr objectAtIndex:i];
@@ -142,7 +157,7 @@
             CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
             LetterBox * box = [[LetterBox alloc] initWithPosition:contentPoint withLetter:str withScale:(letterBoxLength / (LETTER_LENGTH * 2))];
             box.letter = str;
-            lastX += (letterBoxLength + LETTERBOX_BETWEEN_GAP);
+            lastX += (letterBoxLength + letterGap);
             [_contentNode addChild:box];
             [self.boxArray addObject:box];
         }
@@ -150,16 +165,17 @@
         for (int j = 0; j < (int)wordArr.count; j++) {
             NSString * str = [wordArr objectAtIndex:j];
             NSMutableArray * temArr = [self splitWord:str];
+            CGFloat letterGap = [self calculateLetterGap:str];
             if (j > 0) {
-                lastX = LETTERBOX_X_GAP * 4;
-                self.lastLetterYPos -= (LETTERBOX_Y_GAP + letterBoxLength);
+                lastX = LETTERBOX_X_GAP;
+                self.lastLetterYPos -= (LETTERBOX_Y_GAP + self.comboletterLength);
             }
             for (int i = 0 ; i < (int)str.length; i++) {
                 NSString * lette = [temArr objectAtIndex:i];
                 CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
                 CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
-                LetterBox * box = [[LetterBox alloc] initWithPosition:contentPoint withLetter:lette withScale:(letterBoxLength / (LETTER_LENGTH * 2))];
-                lastX += (letterBoxLength + LETTERBOX_BETWEEN_GAP);
+                LetterBox * box = [[LetterBox alloc] initWithPosition:contentPoint withLetter:lette withScale:(self.comboletterLength / (LETTER_LENGTH * 2))];
+                lastX += (self.comboletterLength + letterGap);
                 [_contentNode addChild:box];
                 [self.boxArray addObject:box];
             }
@@ -173,21 +189,32 @@
     CGFloat screenWidth = [Utils getScreenWidth];
     
     if (wordArr.count > 1) {
-        self.hasMoreWords = YES;
         CGFloat maxLength = 0.0f;
         for (NSString * str in wordArr){
             maxLength = maxLength > str.length ? maxLength : str.length;
         }
         return ((screenWidth - LETTERBOX_X_GAP * 2 - LETTERBOX_BETWEEN_GAP * (maxLength - 1)) / maxLength);
     }else {
-        self.hasMoreWords = NO;
         return ((screenWidth - LETTERBOX_X_GAP * 2 - LETTERBOX_BETWEEN_GAP * (tempArr.count - 1)) / tempArr.count);
     }
-
 }
 
-- (void)clear{
+
+- (CGFloat)calculateLetterGap:(NSString *)str{
+    CGFloat screenWidth = [Utils getScreenWidth];
+    NSMutableArray * tempArr = [self splitWord:str];
+    CGFloat gap = (screenWidth - self.comboletterLength * tempArr.count - LETTERBOX_X_GAP * 2) / (tempArr.count - 1) ;
+    return gap;
+}
+
+
+- (void)clearAndSetup{
     [_contentNode removeAllChildrenWithCleanup:YES];
+    self.totalScore += 10;
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:INDEX_KEY];
+    [self.completeString setString:@""];
+    [self setUpCharacter];
 }
 
 - (void)letterView:(LetterView *)letterView didDragToPoint:(CGPoint)point{
@@ -210,29 +237,80 @@
             [self.completeString appendString:letterView.letter];
             [self placeLetter:letterView atTarget:targetView];
             if ([self.completeString isEqualToString:fixedString]) {
-                if (self.index == self.speedModel.anagramPairs.count) {
-                    NSLog(@"nextLevel");
-                    self.index = 0;
+                if (self.index == (self.speedModel.anagramPairs.count - 1)) {
+                     self.totalScore += 10;
+                    [_contentNode removeAllChildrenWithCleanup:YES];
+                    [self enterNextLevel];
+                }else{
+                    self.index = 5;
+                    [self clearAndSetup];
+                    //    self.index++;
                 }
-                [self clear];
-                self.totalScore += 10;
-                self.index++;
-                [self.completeString setString:@""];
-                NSMutableArray * tempArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
-                self.beforeString = [tempArr objectAtIndex:0];
-                self.afterString = [tempArr objectAtIndex:1];
-                [self.boxArray removeAllObjects];
-                [self setupLetters];
-                [self setupLetterBox];
             }
-            
         } else {
-            
-            
             
         }
     }
 }
+
+-(void)enterNextLevel{
+    [self showPassView];
+}
+
+-(void)enterPreviousLevel{
+    if ([self.level isEqualToString:@"easy"]) {
+        [self showPassView];
+    }else if([self.level isEqualToString:@"medium"]){
+        [self showPassView];
+    }else{
+        [self showPassView];
+    }
+
+}
+
+- (void)levelStaff{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:self.level forKey:LEVEL_KEY];
+    self.speedModel = [LevelModel modelWithLevel:self.level];
+    [self.completeString setString:@""];
+    self.comboletterLength = 0.0f;
+    self.countDown = self.speedModel.timeToSolve;
+    self.index = 0;
+    [self setUpCharacter];
+}
+
+- (void)setUpCharacter{
+    NSMutableArray * tempArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
+    self.beforeString = [tempArr objectAtIndex:0];
+    self.afterString = [tempArr objectAtIndex:1];
+    [self.boxArray removeAllObjects];
+    self.comboletterLength = 0.0f;
+    [self setupLetters];
+    [self setupLetterBox];
+}
+
+- (void)showPassView{
+    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
+                                                     message:[NSString stringWithFormat:@"You have passed %@ level", self.level]
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles: nil];
+    alert.tag = 0;
+    [alert addButtonWithTitle:@"Enter Next Level"];
+    [alert show];
+}
+
+- (void)finishSpeedMode{
+    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
+                                                     message:[NSString stringWithFormat: @"You have played all levels"]
+                                                    delegate:self
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles: nil];
+    alert.tag = 2;
+    [alert addButtonWithTitle:@"Quit Speed Mode"];
+    [alert show];
+}
+
 
 
 -(void)placeLetter:(LetterView*)lView atTarget:(LetterBox*)targetView
@@ -254,9 +332,68 @@
 
 - (void)updateTimeAndScore{
     self.countDown--;
+    if (self.countDown < 0) {
+        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Time Up!"
+                                                         message:[NSString stringWithFormat:@"You didn't pass %@ level", self.level]
+                                                        delegate:self
+                                               cancelButtonTitle:@"Quit"
+                                               otherButtonTitles: nil];
+        alert.tag = 1;
+        [alert addButtonWithTitle:@"Try Again"];
+        [alert show];
+    }
     _timeLabel.string = [self transTime];
     _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
     
+}
+
+#pragma mark - Alertview Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == 1) {
+        switch (buttonIndex) {
+            case 0:
+                [self goBack];
+                break;
+            case 1:
+                [self tryAgain];
+                break;
+            default:
+                break;
+        }
+    }else if(alertView.tag == 0){
+        switch (buttonIndex) {
+            case 1:
+                if ([self.level isEqualToString:@"easy"]) {
+                    self.level = @"medium";
+                    [self levelStaff];
+                }else if([self.level isEqualToString:@"medium"]){
+                    self.level = @"hard";
+                    [self levelStaff];
+                }else{
+                     [self finishSpeedMode];
+                }
+                break;
+            default:
+                break;
+        }
+    }else{
+        switch (buttonIndex) {
+            case 1:
+                [self goBack];
+            default:
+                break;
+        }
+    }
+}
+
+
+- (void)goBack{
+    [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"PlayModeSelection"]];
+}
+
+- (void)tryAgain{
+    [self enterNextLevel];
 }
 
 - (NSString *)transTime{

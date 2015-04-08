@@ -11,8 +11,8 @@
 
 
 @interface Gameplay()
-@property (nonatomic, strong) NSMutableArray * boxArray;
-@property (nonatomic, strong) NSMutableString * completeString;
+//@property (nonatomic, strong) NSMutableArray * boxArray;
+//@property (nonatomic, strong) NSMutableString * completeString;
 
 @end
 @implementation Gameplay
@@ -31,11 +31,11 @@
 //    self.userInteractionEnabled = TRUE;
 }
 
-- (void)didLoadFromCCB{
-    self.userInteractionEnabled = TRUE;
-    self.boxArray = [NSMutableArray array];
-    self.completeString = [NSMutableString string];
-}
+//- (void)didLoadFromCCB{
+//    self.userInteractionEnabled = TRUE;
+//    self.boxArray = [NSMutableArray array];
+//    self.completeString = [NSMutableString string];
+//}
 
 
 //- (void)setupLetters{

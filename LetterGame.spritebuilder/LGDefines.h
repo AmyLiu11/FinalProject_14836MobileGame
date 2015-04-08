@@ -11,12 +11,14 @@
 
 #define LETTERBOX_Y_GAP 30
 #define LETTERBOX_B_GAP
-#define LETTERBOX_X_GAP 10.0f
+#define LETTERBOX_X_GAP 30.0f
 #define LETTER_SCALESIZE 0.16f
 #define LETTER_LENGTH 141.0f
 #define LETTER_BOX_GAP 150.0f
 #define LETTER_INITIAL_Y 400.f
 #define LETTER_SIZE 350.0f
 #define LETTERBOX_BETWEEN_GAP 5
+#define LEVEL_KEY @"level"
+#define INDEX_KEY @"index"
 
 #endif
