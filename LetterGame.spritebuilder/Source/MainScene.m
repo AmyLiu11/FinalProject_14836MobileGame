@@ -1,36 +1,13 @@
 #import "MainScene.h"
 
-@implementation MainScene
+@implementation MainScene{
+    CCButton *_playButton;
+}
 
-//- (void)onEnter
-//{
-//    [super onEnter];
-//    NSLog(@"enter main");
-//    
-//    CCButton * playBtn = [CCButton buttonWithTitle:@"Play"];
-//    playBtn.positionInPoints = ccp(160,200);
-//    [playBtn setBackgroundColor:[CCColor redColor] forState:CCControlStateNormal];
-//    [self addChild:playBtn];
-//    [playBtn setBlock:^(id sender){
-//        [self play];
-//    }];
-//    
-//    CCButton * scoreBtn = [CCButton buttonWithTitle:@"High Score"];
-//    scoreBtn.positionInPoints = ccp(260,200);
-//    [scoreBtn setBackgroundColor:[CCColor redColor] forState:CCControlStateNormal];
-//    [self addChild:scoreBtn];
-//    [scoreBtn setBlock:^(id sender){
-//        [self showHighscore];
-//    }];
-//    
-//    CCButton * optionsBtn = [CCButton buttonWithTitle:@"Options"];
-//    optionsBtn.positionInPoints = ccp(360,200);
-//    [optionsBtn setBackgroundColor:[CCColor redColor] forState:CCControlStateNormal];
-//    [self addChild:optionsBtn];
-//    [optionsBtn setBlock:^(id sender){
-//        [self showOptions];
-//    }];
-//}
+- (void)onEnter{
+    [super onEnter];
+    _playButton.contentSize = CGSizeMake(150, 29);
+}
 
 - (void)play{
     CCScene *gameplayScene = [CCBReader loadAsScene:@"PlayModeSelection"];

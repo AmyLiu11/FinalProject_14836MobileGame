@@ -7,7 +7,29 @@
 //
 
 #import "HangmanMode.h"
+#import "HangmanModel.h"
+#import "Hangman.h"
 
-@implementation HangmanMode
+@interface HangmanMode()
+
+@property (nonatomic, strong) HangmanModel * speedModel;
+@property (nonatomic, strong) NSMutableArray * hangmanArr;
+@property (nonatomic, assign) NSUInteger step;
+
+@end
+@implementation HangmanMode{
+    CCNode * _contentNode;
+}
+
+- (void)onEnter{
+    [super onEnter];
+    
+    self.step = 0;
+    
+    self.hangmanArr = [NSMutableArray array];
+    CCNode * hm = [CCBReader load:@"hangman"];
+    Hangman * initialHM = [(Hangman*)hm getHangmanWithStep:self.step];
+    [self addChild:initialHM];
+}
 
 @end

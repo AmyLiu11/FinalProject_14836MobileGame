@@ -79,7 +79,7 @@
 		<key></key>
 		<dict>
 			<key>previewFolderHidden</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>LetterGameAssets/slot.png</key>
 		<dict/>
@@ -90,7 +90,7 @@
 		<key>ccbResources</key>
 		<dict>
 			<key>previewFolderHidden</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>ccbResources/ccbButtonHighlighted.png</key>
 		<dict>

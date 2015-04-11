@@ -34,6 +34,7 @@
     CCLabelTTF *_timeLabel;
     CCLabelTTF *_scoreLabel;
     CCNode * _contentNode;
+    CCSprite * _backbtn;
 }
 
 
@@ -44,6 +45,15 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString * level = [userDefaults stringForKey:LEVEL_KEY];
     NSNumber * wordIndex = [userDefaults objectForKey:INDEX_KEY];
+    [_contentNode setOpacity:0.0f];
+    
+    CCButton * invibtn = [CCButton buttonWithTitle:@"cg"];
+    [_backbtn addChild:invibtn];
+    invibtn.position = CGPointMake(22, 24);
+    [invibtn setTarget:self selector:@selector(goBack)];
+    [invibtn setColorRGBA:[CCColor clearColor]];
+    [invibtn setBackgroundColor:[CCColor clearColor] forState:CCControlStateNormal];
+    [invibtn setBackgroundColor:[CCColor clearColor] forState:CCControlStateSelected];
     
     if (!level) {
         self.level = @"easy";
@@ -240,7 +250,12 @@
                 if (self.index == (self.speedModel.anagramPairs.count - 1)) {
                      self.totalScore += 10;
                     [_contentNode removeAllChildrenWithCleanup:YES];
-                    [self enterNextLevel];
+                    if ([self.level isEqualToString:@"hard"]) {
+                        [self unschedule:@selector(updateTimeAndScore)];
+                        [self finishSpeedMode];
+                    }else{
+                         [self enterNextLevel];
+                    }
                 }else{
                     self.index = 5;
                     [self clearAndSetup];
@@ -371,7 +386,7 @@
                     self.level = @"hard";
                     [self levelStaff];
                 }else{
-                     [self finishSpeedMode];
+                    
                 }
                 break;
             default:

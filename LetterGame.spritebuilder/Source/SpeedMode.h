@@ -12,4 +12,6 @@
 
 @interface SpeedMode : CCNode<LetterDragDelegationProtocol>
 @property (nonatomic, strong) LevelModel * speedModel;
+
+
 @end
