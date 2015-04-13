@@ -5,11 +5,6 @@
 	<key>anagrams</key>
 	<array>
 		<array>
-			<integer>2</integer>
-			<string>eleven plus two</string>
-			<string>twelve plus one</string>
-		</array>
-		<array>
 			<integer>1</integer>
 			<string>pools</string>
 			<string>spool</string>
@@ -66,11 +61,18 @@
 		</array>
 		<array>
 			<integer>2</integer>
+			<string>eleven plus two</string>
+			<string>twelve plus one</string>
+		</array>
+		<array>
+			<integer>2</integer>
 			<string>march</string>
 			<string>charm</string>
 		</array>
 	</array>
 	<key>pointsPerTile</key>
 	<integer>50</integer>
+	<key>timeToSolve</key>
+	<integer>1200</integer>
 </dict>
 </plist>

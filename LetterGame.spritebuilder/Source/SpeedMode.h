@@ -7,11 +7,14 @@
 //
 
 #import "CCNode.h"
+#import "LetterBoard.h"
 #import "LevelModel.h"
-#import "LetterView.h"
 
-@interface SpeedMode : CCNode<LetterDragDelegationProtocol>
+
+@interface SpeedMode : CCNode<LetterBoardDelegationProtocol>
+@property (nonatomic, strong) NSString * level;
+@property (nonatomic, assign) NSUInteger totalScore;
+@property (nonatomic, assign) NSUInteger index;
 @property (nonatomic, strong) LevelModel * speedModel;
-
 
 @end

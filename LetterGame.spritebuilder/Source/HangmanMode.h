@@ -7,7 +7,14 @@
 //
 
 #import "CCNode.h"
+#import "LetterBoard.h"
+#import "HangmanModel.h"
 
-@interface HangmanMode : CCNode
+@interface HangmanMode : CCNode<LetterBoardDelegationProtocol>
+@property (nonatomic, assign) NSUInteger index;
+@property (nonatomic, assign) NSUInteger totalScore;
+@property (nonatomic, strong) HangmanModel * model;
+@property (nonatomic, assign) NSInteger step;
+
 
 @end

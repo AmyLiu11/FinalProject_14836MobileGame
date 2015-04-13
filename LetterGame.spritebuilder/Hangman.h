@@ -10,6 +10,7 @@
 
 @interface Hangman : CCSprite
 
-- (Hangman*)getHangmanWithStep:(NSUInteger)step;
+- (void)showHangmanWithStep:(NSUInteger)step;
+- (Hangman*)getInitialHangman;
 
 @end

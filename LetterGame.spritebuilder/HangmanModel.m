@@ -21,6 +21,7 @@
     HangmanModel * hangmanMode = [[HangmanModel alloc] init];
     hangmanMode.pointPerTile = [levelDict[@"pointsPerTile"] intValue];
     hangmanMode.anagramPairs = levelDict[@"anagrams"];
+    hangmanMode.timeToSolve = [levelDict[@"timeToSolve"] intValue];
     
     return hangmanMode;
 }

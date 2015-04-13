@@ -38,4 +38,10 @@
     
 }
 
++ (NSString *)transTime:(time_t)t{
+    NSString  *format = @"%M:%S";
+    NSString  *time = [Utils dateInFormat:t format:format];
+    return time;
+}
+
 @end

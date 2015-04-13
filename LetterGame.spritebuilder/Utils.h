@@ -13,5 +13,6 @@
 + (CGFloat)getScreenWidth;
 + (CGFloat)getScreenHeight;
 + (NSString *)dateInFormat:(time_t)dateTime format:(NSString*) stringFormat;
++ (NSString *)transTime:(time_t)t;
 
 @end

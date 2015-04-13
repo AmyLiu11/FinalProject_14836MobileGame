@@ -42,10 +42,20 @@
     self.hanger = (CCSprite*)[_hangmanbody getChildByName:@"hanger" recursively:NO];
 }
 
-- (Hangman*)getHangmanWithStep:(NSUInteger)step{
+- (Hangman*)getInitialHangman{
+    self.head.opacity = 0;
+    self.lefthand.opacity = 0;
+    self.rightleg.opacity = 0;
+    self.body.opacity = 0;
+    self.leftleg.opacity = 0;
+    self.righthand.opacity = 0;
+    return self;
+}
+
+- (void)showHangmanWithStep:(NSUInteger)step{
     switch (step) {
         case 0:
-            self.head.opacity = 0;
+            self.head.opacity = 1.0f;
             self.lefthand.opacity = 0;
             self.rightleg.opacity = 0;
             self.body.opacity = 0;
@@ -56,13 +66,13 @@
             self.head.opacity = 1.0f;
             self.lefthand.opacity = 0;
             self.rightleg.opacity = 0;
-            self.body.opacity = 0;
+            self.body.opacity = 1.0f;
             self.leftleg.opacity = 0;
             self.righthand.opacity = 0;
             break;
         case 2:
             self.head.opacity = 1.0f;
-            self.lefthand.opacity = 0;
+            self.lefthand.opacity = 1.0f;
             self.rightleg.opacity = 0;
             self.body.opacity = 1.0f;
             self.leftleg.opacity = 0;
@@ -74,17 +84,9 @@
             self.rightleg.opacity = 0;
             self.body.opacity = 1.0f;
             self.leftleg.opacity = 0;
-            self.righthand.opacity = 0;
-            break;
-        case 4:
-            self.head.opacity = 1.0f;
-            self.lefthand.opacity = 1.0f;
-            self.rightleg.opacity = 0;
-            self.body.opacity = 1.0f;
-            self.leftleg.opacity = 0;
             self.righthand.opacity = 1.0f;
             break;
-        case 5:
+        case 4:
             self.head.opacity = 1.0f;
             self.lefthand.opacity = 1.0f;
             self.rightleg.opacity = 0;
@@ -92,7 +94,7 @@
             self.leftleg.opacity = 1.0f;
             self.righthand.opacity = 1.0f;
             break;
-        case 6:
+        case 5:
             self.head.opacity = 1.0f;
             self.lefthand.opacity = 1.0f;
             self.rightleg.opacity = 1.0f;
@@ -104,7 +106,6 @@
         default:
             break;
     }
-    return self;
 }
 
 
