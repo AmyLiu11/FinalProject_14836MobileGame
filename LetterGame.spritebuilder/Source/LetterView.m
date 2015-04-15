@@ -8,6 +8,7 @@
 
 #import "LetterView.h"
 #import "LGDefines.h"
+#include <math.h>
 
 @implementation LetterView{
     int _xOffset;
@@ -22,6 +23,7 @@
         NSLog(@"width %f, height %f", self.boundingBox.size.width, self.boundingBox.size.height);
         self.position = position;
         self.letter = letter;
+        self.anchorPoint = CGPointMake(0.5f, 0.5f);
         CGSize letterViewSize = self.contentSize;
         
         //add a letter on top
@@ -58,6 +60,18 @@
 -(void)touchCancelled:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
   
+}
+
+-(void)randomize{
+    //set random rotation of the tile
+    //anywhere between -0.2 and 0.3 radians
+    float rotation = ((arc4random() % 50) / (float)100 - 0.2) * LETTER_ROTATION;
+    self.rotation = rotation;
+    
+    //2
+    //move randomly upwards
+    int yOffset = (arc4random() % 10) - 10;
+    self.position = CGPointMake(self.position.x, self.position.y + yOffset);
 }
 
 @end

@@ -10,6 +10,7 @@
 
 @interface LetterBox : CCSprite
 @property (strong,nonatomic) NSString * letter;
+@property (assign,nonatomic) BOOL isMatched;
 
 -(instancetype)initWithPosition:(CGPoint)position withLetter:(NSString *)letter withScale:(float)scale;
 @end

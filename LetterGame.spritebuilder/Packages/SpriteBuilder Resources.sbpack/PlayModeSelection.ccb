@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>4</integer>
+	<integer>5</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -277,7 +277,7 @@
 						<key>value</key>
 						<array>
 							<real>160.50093078613281</real>
-							<real>357.48004150390625</real>
+							<real>380.48004150390625</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -301,8 +301,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1.2569230794906616</real>
-							<real>1.3684804439544678</real>
+							<real>1.5506404638290405</real>
+							<real>1.6765780448913574</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -382,7 +382,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonHighlighted.png</string>
+							<string>LetterGameAssets/buttons-30@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -406,7 +406,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonNormal.png</string>
+							<string>LetterGameAssets/buttons-30@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -442,7 +442,7 @@
 						<key>type</key>
 						<string>FontTTF</string>
 						<key>value</key>
-						<string>Helvetica</string>
+						<string>GillSans-Bold</string>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -603,7 +603,7 @@
 						<key>value</key>
 						<array>
 							<real>160.50093078613281</real>
-							<real>234.6400146484375</real>
+							<real>220.6400146484375</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -627,8 +627,8 @@
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1.0330017805099487</real>
-							<real>1.3220610618591309</real>
+							<real>1.2870433330535889</real>
+							<real>1.6999711990356445</real>
 							<false/>
 							<integer>0</integer>
 						</array>
@@ -708,7 +708,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonHighlighted.png</string>
+							<string>LetterGameAssets/buttons-30@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -768,7 +768,7 @@
 						<key>type</key>
 						<string>FontTTF</string>
 						<key>value</key>
-						<string>Helvetica</string>
+						<string>GillSans-Bold</string>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -895,8 +895,114 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
+			</dict>
+			<dict>
+				<key>UUID</key>
+				<integer>4</integer>
+				<key>baseClass</key>
+				<string>CCSprite</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>displayName</key>
+				<string>back</string>
+				<key>memberVarAssignmentName</key>
+				<string>_backbtn</string>
+				<key>memberVarAssignmentType</key>
+				<integer>1</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>name</string>
+						<key>type</key>
+						<string>StringSimple</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>34.429393768310547</real>
+							<real>30.275100708007812</real>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.45837482810020447</real>
+							<real>0.48502692580223083</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>spriteFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string>LetterGameAssets/Back@4x.png</string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>normalMapSpriteFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string></string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>color</string>
+						<key>type</key>
+						<string>Color3</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>effects</string>
+						<key>type</key>
+						<string>EffectControl</string>
+						<key>value</key>
+						<array/>
+					</dict>
+				</array>
 			</dict>
 		</array>
 		<key>customClass</key>

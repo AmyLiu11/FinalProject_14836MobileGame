@@ -20,21 +20,6 @@
 			<string>care is noted</string>
 		</array>
 		<array>
-			<integer>2</integer>
-			<string>a near miss</string>
-			<string> an air miss</string>
-		</array>
-		<array>
-			<integer>2</integer>
-			<string>considerate</string>
-			<string>care is noted</string>
-		</array>
-		<array>
-			<integer>2</integer>
-			<string>Fourth of July</string>
-			<string>joyful fourth</string>
-		</array>
-		<array>
 			<integer>1</integer>
 			<string>melon</string>
 			<string>lemon</string>
@@ -51,18 +36,8 @@
 		</array>
 		<array>
 			<integer>1</integer>
-			<string>needs</string>
-			<string>dense</string>
-		</array>
-		<array>
-			<integer>1</integer>
 			<string>listen</string>
 			<string>silent</string>
-		</array>
-		<array>
-			<integer>2</integer>
-			<string>eleven plus two</string>
-			<string>twelve plus one</string>
 		</array>
 		<array>
 			<integer>2</integer>
@@ -73,6 +48,6 @@
 	<key>pointsPerTile</key>
 	<integer>50</integer>
 	<key>timeToSolve</key>
-	<integer>1200</integer>
+	<integer>360</integer>
 </dict>
 </plist>

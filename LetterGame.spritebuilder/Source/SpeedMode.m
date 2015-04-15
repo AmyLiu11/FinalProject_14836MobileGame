@@ -109,7 +109,7 @@
     UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
                                                      message:[NSString stringWithFormat:@"You have passed %@ level", self.level]
                                                     delegate:self
-                                           cancelButtonTitle:@"OK"
+                                           cancelButtonTitle:@"Quit"
                                            otherButtonTitles: nil];
     alert.tag = 0;
     [alert addButtonWithTitle:@"Enter Next Level"];
@@ -120,6 +120,7 @@
 - (void)updateTimeAndScore{
     self.countDown--;
     if (self.countDown < 0) {
+        [self unschedule:@selector(updateTimeAndScore)];
         UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Time Up!"
                                                          message:[NSString stringWithFormat:@"You didn't pass %@ level", self.level]
                                                         delegate:self
@@ -128,6 +129,7 @@
         alert.tag = 1;
         [alert addButtonWithTitle:@"Try Again"];
         [alert show];
+        return;
     }
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
     _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
@@ -150,6 +152,9 @@
         }
     }else if(alertView.tag == 0){
         switch (buttonIndex) {
+            case 0:
+                [self goBack];
+                break;
             case 1:
                 if ([self.level isEqualToString:@"easy"]) {
                     self.level = @"medium";
@@ -180,7 +185,10 @@
 }
 
 - (void)tryAgain{
-    [self enterNextLevelWithlb:self.lb];
+    [self schedule:@selector(updateTimeAndScore) interval:1.0f];
+     self.countDown = self.speedModel.timeToSolve;
+    _timeLabel.string = [Utils transTime:(time_t)self.countDown];
+    [self setUpCharacter];
 }
 
 - (void)finishSpeedModeWithlb:(LetterBoard*)lb{
@@ -207,6 +215,9 @@
     [self setUpCharacter];
 }
 
-
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
 
 @end

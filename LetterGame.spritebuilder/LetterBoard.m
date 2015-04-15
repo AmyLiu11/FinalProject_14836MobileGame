@@ -54,14 +54,15 @@
     self.lastLetterYPos = LETTER_INITIAL_Y;
     if (!self.hasMoreWords) {
         self.comboletterLength = [self calculateLetterLength:self.beforeString];
-        CGFloat letterGap = [self calculateLetterGap:self.beforeString];
+        CGFloat letterGap = 10.0f;
+        lastX += self.comboletterLength / 2.0f;
         NSMutableArray * tempArr = [self splitWord:self.beforeString];
         for (int i = 0 ; i < (int)self.beforeString.length; i++) {
             NSString * lette = [tempArr objectAtIndex:i];
             CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
-//            CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
-            LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:worldPoint  andScale:(self.comboletterLength / (LETTER_LENGTH * 2))];
+            LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:worldPoint  andScale:(self.comboletterLength / (LETTER_LENGTH))];
             letter.dragDelegate = self;
+            [letter randomize];
             lastX += (self.comboletterLength + letterGap);
             [self addChild:letter];
         }
@@ -69,19 +70,21 @@
         CGFloat beforeletterLength = [self calculateLetterLength:self.beforeString];
         CGFloat afterletterLength = [self calculateLetterLength:self.afterString];
         self.comboletterLength = beforeletterLength < afterletterLength ? beforeletterLength : afterletterLength;
+        lastX += self.comboletterLength / 2.0f;
         for (int j = 0; j < (int)wordArr.count; j++) {
             NSString * str = [wordArr objectAtIndex:j];
             NSMutableArray * temArr = [self splitWord:str];
-            CGFloat letterGap = [self calculateLetterGap:str];
+            CGFloat letterGap = 10.0f;
             if (j > 0) {
                 lastX = LETTERBOX_X_GAP;
+                lastX += self.comboletterLength / 2.0f;
                 self.lastLetterYPos -= (LETTERBOX_Y_GAP + self.comboletterLength);
             }
             for (int i = 0 ; i < (int)str.length; i++) {
                 CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
-//                CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
-                LetterView * letter = [[LetterView alloc] initWithLetter:[temArr objectAtIndex:i] andPosition:worldPoint andScale:(self.comboletterLength / (LETTER_LENGTH * 2))];
+                LetterView * letter = [[LetterView alloc] initWithLetter:[temArr objectAtIndex:i] andPosition:worldPoint andScale:(self.comboletterLength / (LETTER_LENGTH))];
                 letter.dragDelegate = self;
+                [letter randomize];
                 lastX += (self.comboletterLength + letterGap);
                 [self addChild:letter];
             }
@@ -96,32 +99,35 @@
     
     if (!self.hasMoreWords) {
         CGFloat letterBoxLength = [self calculateLetterLength:self.afterString];
-        CGFloat letterGap = [self calculateLetterGap:self.beforeString];
+        CGFloat letterGap = 10.0f;
+        lastX += self.comboletterLength / 2.0f;
         NSMutableArray * tempArr = [self splitWord:self.afterString];
         for (int i = 0 ; i < (int)self.afterString.length ; i++){
             NSString * str = [tempArr objectAtIndex:i];
             CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
-//            CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
-            LetterBox * box = [[LetterBox alloc] initWithPosition:worldPoint withLetter:str withScale:(letterBoxLength / (LETTER_LENGTH * 2))];
+            LetterBox * box = [[LetterBox alloc] initWithPosition:worldPoint withLetter:str withScale:(letterBoxLength / (LETTER_LENGTH))];
             box.letter = str;
+            box.isMatched = NO;
             lastX += (letterBoxLength + letterGap);
             [self addChild:box];
             [self.boxArray addObject:box];
         }
     }else{
+        lastX += self.comboletterLength / 2.0f;
         for (int j = 0; j < (int)wordArr.count; j++) {
             NSString * str = [wordArr objectAtIndex:j];
             NSMutableArray * temArr = [self splitWord:str];
-            CGFloat letterGap = [self calculateLetterGap:str];
+            CGFloat letterGap = 10.0f;
             if (j > 0) {
                 lastX = LETTERBOX_X_GAP;
+                lastX += self.comboletterLength / 2.0f;
                 self.lastLetterYPos -= (LETTERBOX_Y_GAP + self.comboletterLength);
             }
             for (int i = 0 ; i < (int)str.length; i++) {
                 NSString * lette = [temArr objectAtIndex:i];
                 CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
-//                CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
-                LetterBox * box = [[LetterBox alloc] initWithPosition:worldPoint withLetter:lette withScale:(self.comboletterLength / (LETTER_LENGTH * 2))];
+                LetterBox * box = [[LetterBox alloc] initWithPosition:worldPoint withLetter:lette withScale:(self.comboletterLength / (LETTER_LENGTH ))];
+                box.isMatched = NO;
                 lastX += (self.comboletterLength + letterGap);
                 [self addChild:box];
                 [self.boxArray addObject:box];
@@ -133,6 +139,9 @@
 
 - (NSMutableArray*)splitWord:(NSString*)string{
     NSMutableArray * letterArr = [NSMutableArray array];
+    if ([string length] == 0) {
+        return letterArr;
+    }
     [string enumerateSubstringsInRange:[string rangeOfString:string] options:NSStringEnumerationByComposedCharacterSequences usingBlock: ^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop){
         [letterArr addObject:substring];
     }];
@@ -155,16 +164,6 @@
         return ((screenWidth - LETTERBOX_X_GAP * 2 - LETTERBOX_BETWEEN_GAP * (tempArr.count - 1)) / tempArr.count);
     }
 }
-
-
-- (CGFloat)calculateLetterGap:(NSString *)str{
-    CGFloat screenWidth = [Utils getScreenWidth];
-    NSMutableArray * tempArr = [self splitWord:str];
-    CGFloat gap = (screenWidth - self.comboletterLength * tempArr.count - LETTERBOX_X_GAP * 2) / (tempArr.count - 1) ;
-    return gap;
-}
-
-
 
 - (void)letterView:(LetterView *)letterView didDragToPoint:(CGPoint)point{
     LetterBox * targetView = nil;

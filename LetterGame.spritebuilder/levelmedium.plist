@@ -30,7 +30,7 @@
 		</array>
 	</array>
 	<key>timeToSolve</key>
-	<integer>360</integer>
+	<integer>240</integer>
 	<key>pointsPerTile</key>
 	<integer>30</integer>
 </dict>

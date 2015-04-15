@@ -21,5 +21,6 @@
 @property (strong,nonatomic) NSString * letter;
 
 -(instancetype)initWithLetter:(NSString*)letter andPosition:(CGPoint)position andScale:(float)scale;
+-(void)randomize;
 
 @end

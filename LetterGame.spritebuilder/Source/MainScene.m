@@ -1,12 +1,12 @@
 #import "MainScene.h"
 
+
 @implementation MainScene{
-    CCButton *_playButton;
+    CCLabelTTF * _playLabel;
 }
 
 - (void)onEnter{
     [super onEnter];
-    _playButton.contentSize = CGSizeMake(150, 29);
 }
 
 - (void)play{

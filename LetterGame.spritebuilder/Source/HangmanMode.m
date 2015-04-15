@@ -112,6 +112,8 @@
         alert.tag = 0;
         [alert addButtonWithTitle:@"Try Again"];
         [alert show];
+        [self unschedule:@selector(updateTimeAndScore)];
+        return;
     }
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
     _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
@@ -152,10 +154,13 @@
 
 - (void)finishSpeedModeWithlb:(LetterBoard*)lb{
     [self unschedule:@selector(updateTimeAndScore)];
+    self.index = 0;
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:H_INDEX_KEY];
     UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
                                                      message:[NSString stringWithFormat: @"You just saved all man"]
                                                     delegate:self
-                                           cancelButtonTitle:@"OK"
+                                           cancelButtonTitle:@"playAgain?"
                                            otherButtonTitles: nil];
     alert.tag = 2;
     [alert addButtonWithTitle:@"Quit Hangman Mode"];
@@ -164,15 +169,10 @@
 
 
 - (void)didFinishOneAnagram:(LetterBoard*)lb{
-    self.index = self.model.anagramPairs.count - 1;//self.index++;
+//    self.index = self.model.anagramPairs.count - 1;
+    self.index++;
     self.totalScore += self.model.pointPerTile;
-    self.step = -1;
-    [self clearUpHangman];
-//    [_contentNode removeAllChildrenWithCleanup:YES];
-    [self.lb removeAllChildrenWithCleanup:YES];
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:H_INDEX_KEY];
-    [self setUpCharacter];
+    [self enterNextWord];
 }
 
 - (void)clearUpHangman{
@@ -209,6 +209,8 @@
         }
     }else{
         switch (buttonIndex) {
+            case 0:
+                [self restoreToInitalLevel];
             case 1:
                 [self goBack];
             default:
@@ -218,15 +220,26 @@
 }
 
 - (void)goBack{
+    self.index = 0;
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"PlayModeSelection"]];
 }
 
 - (void)tryAgain{
-    self.index = 0;//self.index++;
+    [self schedule:@selector(updateTimeAndScore) interval:1.0f];
+    self.countDown = self.model.timeToSolve;
+    _timeLabel.string = [Utils transTime:(time_t)self.countDown];
+    [self enterNextWord];
+}
+
+- (void)restoreToInitalLevel{
+    self.index = 0;
     self.totalScore = 0;
+    [self enterNextWord];
+}
+
+- (void)enterNextWord{
     self.step = -1;
     [self clearUpHangman];
-    [self.lb removeAllChildrenWithCleanup:YES];
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:H_INDEX_KEY];
     [self setUpCharacter];
