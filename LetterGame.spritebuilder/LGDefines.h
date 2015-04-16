@@ -26,4 +26,5 @@
 #define HM_LEFT_PADDING 100
 #define HM_DIE_STEP 6
 #define LETTER_ROTATION 30
+#define MAXIMUM_CHARCTER_IN_A_LINE 7
 #endif

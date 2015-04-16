@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import "SpeedMode.h"
 #import "HangmanMode.h"
+#import "cocos2d.h"
 
 @interface LetterBoard()
 
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) NSMutableString * completeString;
 @property (nonatomic, strong) NSString * afterString;
 @property (nonatomic, assign) NSUInteger wordCount;
+@property (nonatomic, assign) CGFloat x_padding;
 
 @end
 
@@ -36,6 +38,7 @@
         self.beforeString = bw;
         self.afterString = aw;
         self.wordCount = c;
+        self.x_padding = LETTERBOX_X_GAP;
         [self setupLetters];
         [self setupLetterBox];
     }
@@ -44,7 +47,6 @@
 
 - (void)setupLetters{
     NSArray * wordArr = [self.beforeString componentsSeparatedByString:@" "];
-    CGFloat lastX = LETTERBOX_X_GAP;
     if (wordArr.count > 0) {
         self.hasMoreWords = YES;
     }else{
@@ -52,10 +54,10 @@
     }
     
     self.lastLetterYPos = LETTER_INITIAL_Y;
+    self.x_padding = LETTERBOX_X_GAP;
     if (!self.hasMoreWords) {
         self.comboletterLength = [self calculateLetterLength:self.beforeString];
-        CGFloat letterGap = 10.0f;
-        lastX += self.comboletterLength / 2.0f;
+        CGFloat lastX = self.x_padding + self.comboletterLength / 2.0f;
         NSMutableArray * tempArr = [self splitWord:self.beforeString];
         for (int i = 0 ; i < (int)self.beforeString.length; i++) {
             NSString * lette = [tempArr objectAtIndex:i];
@@ -63,21 +65,19 @@
             LetterView * letter = [[LetterView alloc] initWithLetter:lette andPosition:worldPoint  andScale:(self.comboletterLength / (LETTER_LENGTH))];
             letter.dragDelegate = self;
             [letter randomize];
-            lastX += (self.comboletterLength + letterGap);
+            lastX += (self.comboletterLength + LETTERBOX_BETWEEN_GAP);
             [self addChild:letter];
         }
     }else{
         CGFloat beforeletterLength = [self calculateLetterLength:self.beforeString];
         CGFloat afterletterLength = [self calculateLetterLength:self.afterString];
         self.comboletterLength = beforeletterLength < afterletterLength ? beforeletterLength : afterletterLength;
-        lastX += self.comboletterLength / 2.0f;
+        CGFloat lastX = self.x_padding + self.comboletterLength / 2.0f;
         for (int j = 0; j < (int)wordArr.count; j++) {
             NSString * str = [wordArr objectAtIndex:j];
             NSMutableArray * temArr = [self splitWord:str];
-            CGFloat letterGap = 10.0f;
             if (j > 0) {
-                lastX = LETTERBOX_X_GAP;
-                lastX += self.comboletterLength / 2.0f;
+                lastX = self.x_padding;
                 self.lastLetterYPos -= (LETTERBOX_Y_GAP + self.comboletterLength);
             }
             for (int i = 0 ; i < (int)str.length; i++) {
@@ -85,7 +85,7 @@
                 LetterView * letter = [[LetterView alloc] initWithLetter:[temArr objectAtIndex:i] andPosition:worldPoint andScale:(self.comboletterLength / (LETTER_LENGTH))];
                 letter.dragDelegate = self;
                 [letter randomize];
-                lastX += (self.comboletterLength + letterGap);
+                lastX += (self.comboletterLength + LETTERBOX_BETWEEN_GAP);
                 [self addChild:letter];
             }
         }
@@ -94,13 +94,12 @@
 
 - (void)setupLetterBox{
     NSArray * wordArr = [self.afterString componentsSeparatedByString:@" "];
-    CGFloat lastX = LETTERBOX_X_GAP;
     self.lastLetterYPos -= LETTER_BOX_GAP;
+    self.x_padding = LETTERBOX_X_GAP;
     
     if (!self.hasMoreWords) {
         CGFloat letterBoxLength = [self calculateLetterLength:self.afterString];
-        CGFloat letterGap = 10.0f;
-        lastX += self.comboletterLength / 2.0f;
+        CGFloat lastX = self.x_padding + letterBoxLength / 2.0f;
         NSMutableArray * tempArr = [self splitWord:self.afterString];
         for (int i = 0 ; i < (int)self.afterString.length ; i++){
             NSString * str = [tempArr objectAtIndex:i];
@@ -108,19 +107,17 @@
             LetterBox * box = [[LetterBox alloc] initWithPosition:worldPoint withLetter:str withScale:(letterBoxLength / (LETTER_LENGTH))];
             box.letter = str;
             box.isMatched = NO;
-            lastX += (letterBoxLength + letterGap);
+            lastX += (letterBoxLength + LETTERBOX_BETWEEN_GAP);
             [self addChild:box];
             [self.boxArray addObject:box];
         }
     }else{
-        lastX += self.comboletterLength / 2.0f;
+        CGFloat lastX = self.x_padding + self.comboletterLength / 2.0f;
         for (int j = 0; j < (int)wordArr.count; j++) {
             NSString * str = [wordArr objectAtIndex:j];
             NSMutableArray * temArr = [self splitWord:str];
-            CGFloat letterGap = 10.0f;
             if (j > 0) {
-                lastX = LETTERBOX_X_GAP;
-                lastX += self.comboletterLength / 2.0f;
+                lastX = self.x_padding + self.comboletterLength / 2.0f;
                 self.lastLetterYPos -= (LETTERBOX_Y_GAP + self.comboletterLength);
             }
             for (int i = 0 ; i < (int)str.length; i++) {
@@ -128,7 +125,7 @@
                 CGPoint worldPoint = ccp(lastX, self.lastLetterYPos);
                 LetterBox * box = [[LetterBox alloc] initWithPosition:worldPoint withLetter:lette withScale:(self.comboletterLength / (LETTER_LENGTH ))];
                 box.isMatched = NO;
-                lastX += (self.comboletterLength + letterGap);
+                lastX += (self.comboletterLength + LETTERBOX_BETWEEN_GAP);
                 [self addChild:box];
                 [self.boxArray addObject:box];
             }
@@ -159,9 +156,15 @@
         for (NSString * str in wordArr){
             maxLength = maxLength > str.length ? maxLength : str.length;
         }
-        return ((screenWidth - LETTERBOX_X_GAP * 2 - LETTERBOX_BETWEEN_GAP * (maxLength - 1)) / maxLength);
+        if (maxLength > MAXIMUM_CHARCTER_IN_A_LINE) {
+            self.x_padding = LETTERBOX_X_GAP - 10;
+        }
+        return ((screenWidth - self.x_padding * 2 - LETTERBOX_BETWEEN_GAP * (maxLength - 1)) / maxLength);
     }else {
-        return ((screenWidth - LETTERBOX_X_GAP * 2 - LETTERBOX_BETWEEN_GAP * (tempArr.count - 1)) / tempArr.count);
+        if ([str length] > MAXIMUM_CHARCTER_IN_A_LINE) {
+            self.x_padding = LETTERBOX_X_GAP - 10;
+        }
+        return ((screenWidth - self.x_padding * 2 - LETTERBOX_BETWEEN_GAP * (tempArr.count - 1)) / tempArr.count);
     }
 }
 
@@ -181,7 +184,8 @@
         
         //2 check if letter matches
         if ([targetView.letter isEqualToString: letterView.letter]) {
-            
+            targetView.isMatched = YES;
+            [self showPointsAnimation];
             [self.completeString appendString:letterView.letter];
             [self placeLetter:letterView atTarget:targetView];
             if ([self.completeString isEqualToString:fixedString]) {
@@ -207,9 +211,12 @@
             }
         } else {
             if ([self.delegate isKindOfClass:[SpeedMode class]]) {
-                
+                 [self showWrongLetterAnimation];
             }else{
                 HangmanMode * mode = (HangmanMode*)self.delegate;
+                if (targetView.isMatched == YES) {
+                    return;
+                }
                 [mode showHangmanWithlb:self];
             }
         }
@@ -225,12 +232,49 @@
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          lView.position = targetView.position;
+                         lView.rotation = 0.0f;
                          //                         tileView.transform = CGAffineTransformIdentity;
                      }
                      completion:^(BOOL finished){
                          targetView.visible = NO;
                      }];
     
+}
+
+- (void)showWrongLetterAnimation{
+    CGFloat screenWidth = [Utils getScreenWidth];
+    CGFloat screenHeight = [Utils getScreenHeight];
+    CCLabelTTF * wrongLabel = [[CCLabelTTF alloc] initWithString:@"Wrong Letter" fontName:@"Arial-BoldMT" fontSize:50];
+    wrongLabel.fontColor = [CCColor redColor];
+    wrongLabel.anchorPoint = CGPointMake(0.5f, 0.5f);
+    wrongLabel.position = CGPointMake(screenWidth/2.0f, screenHeight/2.0f);
+    [self addChild:wrongLabel];
+    wrongLabel.opacity = 0.0f;
+    
+    id fadeInAction = [CCActionFadeTo actionWithDuration:0.7f opacity:1.0f];
+    id moveAction = [CCActionMoveTo actionWithDuration:0.7f position:ccpAdd(wrongLabel.position, CGPointMake(0, -30))];
+    id fadeOutAction = [CCActionFadeTo actionWithDuration:0.2f opacity:0.0f];
+    id combinedAction = [CCActionSpawn actionOne:fadeInAction two:moveAction];
+    id removeAction = [CCActionRemove action];
+    [wrongLabel runAction: [CCActionSequence actions: combinedAction, fadeOutAction,removeAction,nil]];
+}
+
+- (void)showPointsAnimation{
+    CGFloat screenWidth = [Utils getScreenWidth];
+    CGFloat screenHeight = [Utils getScreenHeight];
+    CCLabelTTF * pointsLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"+%d",10] fontName:@"Arial-BoldMT" fontSize:50];
+    pointsLabel.fontColor = [CCColor greenColor];
+    pointsLabel.anchorPoint = CGPointMake(0.5f, 0.5f);
+    pointsLabel.position = CGPointMake(screenWidth/2.0f, screenHeight/2.0f);
+    [self addChild:pointsLabel];
+    pointsLabel.opacity = 0.0f;
+    
+    id fadeInAction = [CCActionFadeTo actionWithDuration:0.7f opacity:1.0f];
+    id moveAction = [CCActionMoveTo actionWithDuration:0.7f position:CGPointMake(260.0f, 507.0f)];
+    id fadeOutAction = [CCActionFadeTo actionWithDuration:0.2f opacity:0.0f];
+    id combinedAction = [CCActionSpawn actionOne:fadeInAction two:moveAction];
+    id removeAction = [CCActionRemove action];
+    [pointsLabel runAction: [CCActionSequence actions: combinedAction, fadeOutAction,removeAction,nil]];
 }
 
 - (void)resetBoardWithbw:(NSString*)bw afterW:(NSString*)af{

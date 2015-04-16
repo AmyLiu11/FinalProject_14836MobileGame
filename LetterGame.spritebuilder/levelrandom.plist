@@ -5,6 +5,11 @@
 	<key>anagrams</key>
 	<array>
 		<array>
+			<integer>2</integer>
+			<string>considerate</string>
+			<string>care is noted</string>
+		</array>
+		<array>
 			<integer>1</integer>
 			<string>pools</string>
 			<string>spool</string>
@@ -13,11 +18,6 @@
 			<integer>1</integer>
 			<string>robed</string>
 			<string>bored</string>
-		</array>
-		<array>
-			<integer>2</integer>
-			<string>considerate</string>
-			<string>care is noted</string>
 		</array>
 		<array>
 			<integer>1</integer>
