@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString * level;
 @property (nonatomic, assign) NSUInteger totalScore;
 @property (nonatomic, assign) NSUInteger index;
+@property (nonatomic, assign) NSUInteger pointsPerTile;
 @property (nonatomic, strong) LevelModel * speedModel;
 
 @end

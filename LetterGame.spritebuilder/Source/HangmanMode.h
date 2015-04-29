@@ -15,6 +15,7 @@
 @property (nonatomic, assign) NSUInteger totalScore;
 @property (nonatomic, strong) HangmanModel * model;
 @property (nonatomic, assign) NSInteger step;
+@property (nonatomic, assign) NSUInteger pointsPerTile;
 
 
 @end

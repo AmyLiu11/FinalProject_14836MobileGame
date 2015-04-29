@@ -9,6 +9,13 @@
 #import "LetterView.h"
 #import "LGDefines.h"
 #include <math.h>
+#import <QuartzCore/QuartzCore.h>
+
+@interface LetterView()
+
+@property (nonatomic, assign) CGFloat scaleA;
+
+@end
 
 @implementation LetterView{
     int _xOffset;
@@ -19,6 +26,7 @@
 -(id)initWithLetter:(NSString*)letter andPosition:(CGPoint)position andScale:(float)scale{
     self = [super initWithImageNamed:@"LetterGameAssets/tile.png"];
     if(self != nil){
+        
         self.scale = scale;
         NSLog(@"width %f, height %f", self.boundingBox.size.width, self.boundingBox.size.height);
         self.position = position;
@@ -27,17 +35,31 @@
         CGSize letterViewSize = self.contentSize;
         
         //add a letter on top
-        CCLabelTTF * letterlabel = [CCLabelTTF labelWithString:letter fontName:@"Verdana-Bold" fontSize:LETTER_SIZE*LETTER_SCALESIZE];
-        letterlabel.position =  ccp(letterViewSize.width/2, letterViewSize.height/2);
-        letterlabel.userInteractionEnabled = TRUE;
-        [self addChild:letterlabel];
-         self.userInteractionEnabled = TRUE;
+        [self addLetterOn:letterViewSize withLetter:letter];
+        self.userInteractionEnabled = TRUE;
+        
     }
     return self;
 }
 
+- (void)addLetterOn:(CGSize)size withLetter:(NSString*)string{
+    //add a letter on top
+    CCLabelTTF * letterlabel = [CCLabelTTF labelWithString:string fontName:@"Verdana-Bold" fontSize:LETTER_SIZE*LETTER_SCALESIZE];
+    letterlabel.position =  ccp(size.width/2, size.height/2);
+    letterlabel.userInteractionEnabled = TRUE;
+    [self addChild:letterlabel];
+}
+
 -(void)touchBegan:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
+    //此处要增加当前view在最前面的逻辑
+    self.scaleA = self.scale;
+    [self removeAllChildren];
+    self.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"LetterGameAssets/twshadow7.png"];
+    
+    CCLOG(@"contentSize w:%f h:%f", self.contentSize.width, self.contentSize.height);
+    [self addLetterOn:self.contentSize withLetter:self.letter];
+    self.scale = self.scale * 1.2;
     CGPoint pt = [touch locationInNode:self.parent];
     _xOffset = pt.x - self.position.x;
     _yOffset = pt.y - self.position.y;
@@ -52,6 +74,11 @@
 
 -(void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
 {
+    [self removeAllChildren];
+    self.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"LetterGameAssets/tile.png"];
+    [self addLetterOn:self.contentSize withLetter:self.letter];
+    self.scale = self.scaleA;
+    
     if (self.dragDelegate) {
         [self.dragDelegate letterView:self didDragToPoint:self.position];
     }

@@ -7,7 +7,6 @@
 //
 
 #import "LetterBoard.h"
-#import "LetterBox.h"
 #import "LGDefines.h"
 #import "Utils.h"
 #import "SpeedMode.h"
@@ -17,6 +16,7 @@
 @interface LetterBoard()
 
 @property (nonatomic, strong) NSMutableArray * boxArray;
+@property (nonatomic, strong) NSMutableArray * letterArray;
 @property (nonatomic, assign) CGFloat lastLetterYPos;
 @property (nonatomic, assign) BOOL hasMoreWords;
 @property (nonatomic, assign) CGFloat comboletterLength;
@@ -25,6 +25,11 @@
 @property (nonatomic, strong) NSString * afterString;
 @property (nonatomic, assign) NSUInteger wordCount;
 @property (nonatomic, assign) CGFloat x_padding;
+@property (nonatomic, strong) NSString * fixedString;
+@property (nonatomic, strong) CCActionSoundEffect * wrongSound;
+@property (nonatomic, strong) CCActionSoundEffect * rightSound;
+@property (nonatomic, strong) CCActionSoundEffect * successFinishSound;
+@property (nonatomic, assign) BOOL isSeekHints;
 
 @end
 
@@ -34,15 +39,27 @@
     self = [super init];
     if (self) {
         self.boxArray = [NSMutableArray array];
+        self.letterArray = [NSMutableArray array];
         self.completeString = [NSMutableString string];
         self.beforeString = bw;
         self.afterString = aw;
         self.wordCount = c;
+        self.isSeekHints = NO;
         self.x_padding = LETTERBOX_X_GAP;
         [self setupLetters];
         [self setupLetterBox];
+        [self showTimeUpAlert];
     }
     return self;
+}
+
+- (void)preloadSoundEffect{
+    NSString * rsoundPath = [[NSBundle mainBundle] pathForResource:@"ding" ofType:@"mp3"];
+    NSString * wsoundPath = [[NSBundle mainBundle] pathForResource:@"error" ofType:@"wav"];
+    NSString * winsoundPath = [[NSBundle mainBundle] pathForResource:@"win" ofType:@"mp3"];
+    self.rightSound = [CCActionSoundEffect actionWithSoundFile:rsoundPath pitch:1.0f pan:0 gain:1.0f];
+    self.wrongSound = [CCActionSoundEffect actionWithSoundFile:wsoundPath pitch:1.0f pan:0 gain:1.0f];
+    self.successFinishSound = [CCActionSoundEffect actionWithSoundFile:winsoundPath pitch:1.0f pan:0 gain:1.0f];
 }
 
 - (void)setupLetters{
@@ -67,6 +84,7 @@
             [letter randomize];
             lastX += (self.comboletterLength + LETTERBOX_BETWEEN_GAP);
             [self addChild:letter];
+            [self.letterArray addObject:letter];
         }
     }else{
         CGFloat beforeletterLength = [self calculateLetterLength:self.beforeString];
@@ -87,6 +105,7 @@
                 [letter randomize];
                 lastX += (self.comboletterLength + LETTERBOX_BETWEEN_GAP);
                 [self addChild:letter];
+                [self.letterArray addObject:letter];
             }
         }
     }
@@ -170,7 +189,7 @@
 
 - (void)letterView:(LetterView *)letterView didDragToPoint:(CGPoint)point{
     LetterBox * targetView = nil;
-    NSString * fixedString = [self.afterString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    self.fixedString = [self.afterString stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     for (LetterBox* box in self.boxArray) {
         
@@ -184,30 +203,25 @@
         
         //2 check if letter matches
         if ([targetView.letter isEqualToString: letterView.letter]) {
+            self.isSeekHints = NO;
             targetView.isMatched = YES;
-            [self showPointsAnimation];
+            letterView.isMatched = YES;
+            NSUInteger points = 0;
+            if ([self.delegate isKindOfClass:[SpeedMode class]]) {
+                SpeedMode * mode = (SpeedMode*)self.delegate;
+                points = mode.pointsPerTile;
+            }else{
+                HangmanMode * mode = (HangmanMode*)self.delegate;
+                points = mode.pointsPerTile;
+            }
+            
+            [self showPointsAnimation:targetView.position withPoint:points];
+            [self addPoints];
             [self.completeString appendString:letterView.letter];
             [self placeLetter:letterView atTarget:targetView];
-            if ([self.completeString isEqualToString:fixedString]) {
-              if ([self.delegate isKindOfClass:[SpeedMode class]]) {
-                  SpeedMode * mode = (SpeedMode*)self.delegate;
-                  if (mode.index == (mode.speedModel.anagramPairs.count - 1)) {
-                        if ([mode.level isEqualToString:@"hard"]) {
-                            [self.delegate finishSpeedModeWithlb:self];
-                        }else{
-                            [self.delegate enterNextLevelWithlb:self];
-                        }
-                  }else{
-                    [self.delegate didFinishOneAnagram:self];
-                  }
-              }else{
-                  HangmanMode * mode = (HangmanMode*)self.delegate;
-                  if (mode.index == (mode.model.anagramPairs.count - 1)) {
-                      [self.delegate finishSpeedModeWithlb:self];
-                  }else{
-                      [self.delegate didFinishOneAnagram:self];
-                  }
-              }
+            if ([self.completeString isEqualToString:self.fixedString]) {
+                [self playSuccessSpellingSound];
+                [self proceedNextStepWhenFinishSpellingOneWord];
             }
         } else {
             if ([self.delegate isKindOfClass:[SpeedMode class]]) {
@@ -217,10 +231,48 @@
                 if (targetView.isMatched == YES) {
                     return;
                 }
+                [self showWrongLetterAnimation];
                 [mode showHangmanWithlb:self];
             }
         }
     }
+}
+
+-(void)addPoints{
+    if ([self.delegate isKindOfClass:[SpeedMode class]]) {
+        SpeedMode * mode = (SpeedMode*)self.delegate;
+        mode.totalScore += mode.pointsPerTile;
+    }else{
+        HangmanMode * mode = (HangmanMode*)self.delegate;
+        mode.totalScore += mode.pointsPerTile;
+    }
+}
+
+
+-(void)proceedNextStepWhenFinishSpellingOneWord{
+    if ([self.delegate isKindOfClass:[SpeedMode class]]) {
+        SpeedMode * mode = (SpeedMode*)self.delegate;
+        if (mode.index == (mode.speedModel.anagramPairs.count - 1)) {
+            if ([mode.level isEqualToString:@"hard"]) {
+                [self.delegate finishSpeedModeWithlb:self];
+            }else{
+                [self.delegate enterNextLevelWithlb:self];
+            }
+        }else{
+            [self.delegate didFinishOneAnagram:self];
+        }
+    }else{
+        HangmanMode * mode = (HangmanMode*)self.delegate;
+        if (mode.index == (mode.model.anagramPairs.count - 1)) {
+            [self.delegate finishSpeedModeWithlb:self];
+        }else{
+            [self.delegate didFinishOneAnagram:self];
+        }
+    }
+}
+
+-(void)playSuccessSpellingSound{
+    [self runAction:self.successFinishSound];
 }
 
 -(void)placeLetter:(LetterView*)lView atTarget:(LetterBox*)targetView
@@ -256,13 +308,13 @@
     id fadeOutAction = [CCActionFadeTo actionWithDuration:0.2f opacity:0.0f];
     id combinedAction = [CCActionSpawn actionOne:fadeInAction two:moveAction];
     id removeAction = [CCActionRemove action];
-    [wrongLabel runAction: [CCActionSequence actions: combinedAction, fadeOutAction,removeAction,nil]];
+    [wrongLabel runAction: [CCActionSequence actions: self.wrongSound,combinedAction, fadeOutAction,removeAction,nil]];
 }
 
-- (void)showPointsAnimation{
+- (void)showPointsAnimation:(CGPoint)effectPoint withPoint:(NSUInteger)points{
     CGFloat screenWidth = [Utils getScreenWidth];
     CGFloat screenHeight = [Utils getScreenHeight];
-    CCLabelTTF * pointsLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"+%d",10] fontName:@"Arial-BoldMT" fontSize:50];
+    CCLabelTTF * pointsLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"+%lu",(unsigned long)points] fontName:@"Arial-BoldMT" fontSize:50];
     pointsLabel.fontColor = [CCColor greenColor];
     pointsLabel.anchorPoint = CGPointMake(0.5f, 0.5f);
     pointsLabel.position = CGPointMake(screenWidth/2.0f, screenHeight/2.0f);
@@ -274,7 +326,15 @@
     id fadeOutAction = [CCActionFadeTo actionWithDuration:0.2f opacity:0.0f];
     id combinedAction = [CCActionSpawn actionOne:fadeInAction two:moveAction];
     id removeAction = [CCActionRemove action];
-    [pointsLabel runAction: [CCActionSequence actions: combinedAction, fadeOutAction,removeAction,nil]];
+    
+    [pointsLabel runAction: [CCActionSequence actions: self.rightSound,combinedAction,fadeOutAction,removeAction,nil]];
+    
+    if (!self.isSeekHints) {
+        CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"WinParticle"];
+        explosion.autoRemoveOnFinish = TRUE;
+        explosion.position = effectPoint;
+        [self addChild:explosion];
+    }
 }
 
 - (void)resetBoardWithbw:(NSString*)bw afterW:(NSString*)af{
@@ -287,6 +347,69 @@
     [self setupLetters];
     [self setupLetterBox];
 }
+
+- (void)showTimeUpAlert{
+    
+    CGFloat screenWidth = [Utils getScreenWidth];
+    CGFloat screenHeight = [Utils getScreenHeight];
+    
+    CGPoint alertPos = CGPointMake(screenWidth/2, screenHeight/2);
+//    alert.position = alertPos;
+//    [self addChild:alert];
+}
+
+- (void)findFirstUnmatchedBox{
+    self.isSeekHints = YES;
+    LetterBox * unmatchedBox = nil;
+    for (LetterBox* box in self.boxArray) {
+        
+        if (box.isMatched == NO) {
+            unmatchedBox = box;
+            break;
+        }
+    }
+    
+    LetterView * tile = nil;
+    for (LetterView * t in self.letterArray) {
+        if ( t.isMatched == NO && [t.letter isEqualToString:unmatchedBox.letter]) {
+            tile = t;
+            break;
+        }
+    }
+    
+    if (tile == nil && unmatchedBox == nil) {
+        [self proceedNextStepWhenFinishSpellingOneWord];
+        return;
+    }
+    
+    tile.isMatched = YES;
+    unmatchedBox.isMatched = YES;
+    
+    id moveAction = [CCActionMoveTo actionWithDuration:0.7f position:unmatchedBox.position];
+    id fadeOutAction = [CCActionFadeTo actionWithDuration:0.2f opacity:0.0f];
+    [tile runAction: moveAction];
+    tile.rotation = 0.0f;
+    [unmatchedBox runAction: [CCActionSequence actions: [CCActionDelay actionWithDuration:0.7],fadeOutAction,nil]];
+    
+    NSUInteger points = 0;
+    if ([self.delegate isKindOfClass:[SpeedMode class]]) {
+        SpeedMode * mode = (SpeedMode*)self.delegate;
+        points = mode.pointsPerTile;
+    }else{
+        HangmanMode * mode = (HangmanMode*)self.delegate;
+        points = mode.pointsPerTile;
+    }
+    
+    [self showPointsAnimation:unmatchedBox.position withPoint:points];
+    [self addPoints];
+    [self.completeString appendString:tile.letter];
+    if ([self.completeString isEqualToString:self.fixedString]) {
+        [self playSuccessSpellingSound];
+        [self proceedNextStepWhenFinishSpellingOneWord];
+    }
+}
+
+
 
 
 

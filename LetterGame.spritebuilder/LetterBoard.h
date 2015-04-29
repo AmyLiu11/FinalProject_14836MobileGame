@@ -8,6 +8,8 @@
 
 #import "CCNode.h"
 #import "LetterView.h"
+#import "LetterBox.h"
+
 @class LetterBoard;
 
 @protocol LetterBoardDelegationProtocol <NSObject>
@@ -27,5 +29,7 @@
 
 - (id)initWithBeforeWord:(NSString*)bw afterW:(NSString*)aw withCount:(NSUInteger)c;
 - (void)resetBoardWithbw:(NSString*)bw afterW:(NSString*)af;
+- (void)preloadSoundEffect;
+- (void)findFirstUnmatchedBox;
 
 @end

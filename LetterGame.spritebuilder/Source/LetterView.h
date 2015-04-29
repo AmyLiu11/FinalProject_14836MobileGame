@@ -19,6 +19,7 @@
 @interface LetterView : CCSprite 
 @property (weak, nonatomic) id<LetterDragDelegationProtocol> dragDelegate;
 @property (strong,nonatomic) NSString * letter;
+@property (assign,nonatomic) BOOL isMatched;
 
 -(instancetype)initWithLetter:(NSString*)letter andPosition:(CGPoint)position andScale:(float)scale;
 -(void)randomize;

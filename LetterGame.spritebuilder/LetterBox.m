@@ -17,6 +17,7 @@
         self.scale = scale;
         self.letter = letter;
         self.position = position;
+        self.isMatched = NO;
     }
     return self;
 }

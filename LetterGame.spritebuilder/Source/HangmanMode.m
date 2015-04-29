@@ -54,6 +54,7 @@
     self.step = -1;
     self.totalScore = 0;
     self.countDown = self.model.timeToSolve;
+    self.pointsPerTile = self.model.pointPerTile;
     _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
     
@@ -64,6 +65,7 @@
     
     self.lb = [[LetterBoard alloc] initWithBeforeWord:[wordArr objectAtIndex:1] afterW:[wordArr objectAtIndex:2] withCount:self.model.anagramPairs.count];
     self.lb.delegate = self;
+    [self.lb preloadSoundEffect];
     [_contentNode addChild:self.lb];
     self.lb.anchorPoint = ccp(0.0f,0.0f);
     self.lb.scaleX = 0.3f;
@@ -243,6 +245,10 @@
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:H_INDEX_KEY];
     [self setUpCharacter];
+}
+
+- (void)hint{
+    [self.lb findFirstUnmatchedBox];
 }
 
 

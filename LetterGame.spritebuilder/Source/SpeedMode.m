@@ -9,6 +9,8 @@
 #import "LGDefines.h"
 #import "Utils.h"
 #import "SpeedMode.h"
+#import "LetterBox.h"
+#import "AlertView.h"
 
 
 @interface SpeedMode()
@@ -60,6 +62,7 @@
     self.speedModel = [LevelModel modelWithLevel:self.level];
     self.countDown = self.speedModel.timeToSolve;
     self.totalScore = 0;
+    self.pointsPerTile = self.speedModel.pointPerTile;
     
     NSArray * wordArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
     [_scoreLabel setColor:[CCColor redColor]];
@@ -72,10 +75,18 @@
     self.lb = [[LetterBoard alloc] initWithBeforeWord:[wordArr objectAtIndex:0] afterW:[wordArr objectAtIndex:1] withCount:self.speedModel.anagramPairs.count];
     self.lb.delegate = self;
     [self addChild:self.lb];
+    [self.lb preloadSoundEffect];
     
     if (!_timer) {
          _timer = [[CCTimer alloc] init];
     }
+    
+    CCScene * av = [CCBReader loadAsScene:@"AlertView"];
+    AlertView * avv = (AlertView*)av;
+//    avv.btn1.title = @"Try Again!";
+//    avv.btn2.title = @"Quit!";
+    [self addChild:avv];
+
     
 }
 
@@ -193,14 +204,22 @@
 
 - (void)finishSpeedModeWithlb:(LetterBoard*)lb{
     [self unschedule:@selector(updateTimeAndScore)];
-    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
-                                                     message:[NSString stringWithFormat: @"You have played all levels"]
-                                                    delegate:self
-                                           cancelButtonTitle:@"OK"
-                                           otherButtonTitles: nil];
-    alert.tag = 2;
-    [alert addButtonWithTitle:@"Quit Speed Mode"];
-    [alert show];
+    
+    CCScene * av = [CCBReader loadAsScene:@"AlertView"];
+    AlertView * avv = (AlertView*)av;
+    avv.btn1.title = @"Try Again!";
+    avv.btn2.title = @"Quit!";
+    [[CCDirector sharedDirector] replaceScene:avv];
+    
+    
+//    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
+//                                                     message:[NSString stringWithFormat: @"You have played all levels"]
+//                                                    delegate:self
+//                                           cancelButtonTitle:@"OK"
+//                                           otherButtonTitles: nil];
+//    alert.tag = 2;
+//    [alert addButtonWithTitle:@"Quit Speed Mode"];
+//    [alert show];
 }
 
 - (void)enterNextLevelWithlb:(LetterBoard*)lb{
@@ -208,8 +227,8 @@
 }
 
 - (void)didFinishOneAnagram:(LetterBoard*)lb{
-    self.index = 5;//self.index++;
-    self.totalScore += 10;
+    self.index++;
+//    self.index = 5;
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:INDEX_KEY];
     [self setUpCharacter];
@@ -218,6 +237,10 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
+}
+
+- (void)hint{
+   [self.lb findFirstUnmatchedBox];
 }
 
 @end
