@@ -11,7 +11,13 @@
 		36BC23141AED93990035BD77 /* ding.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 36BC23131AED93990035BD77 /* ding.mp3 */; };
 		36BC23171AED93A70035BD77 /* win.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 36BC23151AED93A70035BD77 /* win.mp3 */; };
 		36BC231A1AED95270035BD77 /* error.wav in Resources */ = {isa = PBXBuildFile; fileRef = 36BC23191AED95270035BD77 /* error.wav */; };
-		36BC23231AF027580035BD77 /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BC23221AF027580035BD77 /* AlertView.m */; };
+		36BC232C1AF179030035BD77 /* LoseScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BC232B1AF179030035BD77 /* LoseScene.m */; };
+		36BC233D1AF196B00035BD77 /* PassScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BC233C1AF196B00035BD77 /* PassScene.m */; };
+		36BC23401AF1992A0035BD77 /* AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BC233F1AF1992A0035BD77 /* AlertView.m */; };
+		36BC23491AF2AB900035BD77 /* HighScore.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BC23481AF2AB900035BD77 /* HighScore.m */; };
+		36BC234B1AF2C9890035BD77 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BC234A1AF2C9890035BD77 /* FBSDKCoreKit.framework */; };
+		36BC234D1AF2C9960035BD77 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BC234C1AF2C9960035BD77 /* FBSDKLoginKit.framework */; };
+		36BC234F1AF2C9AB0035BD77 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BC234E1AF2C9AB0035BD77 /* FBSDKShareKit.framework */; };
 		36BE04D81ABF6E16005BAA36 /* PlayModeSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04D71ABF6E16005BAA36 /* PlayModeSelection.m */; };
 		36BE04DB1ABF825A005BAA36 /* SpeedMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04DA1ABF825A005BAA36 /* SpeedMode.m */; };
 		36BE04DE1ABF82FC005BAA36 /* HangmanMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04DD1ABF82FC005BAA36 /* HangmanMode.m */; };
@@ -192,8 +198,17 @@
 		36BC23131AED93990035BD77 /* ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ding.mp3; sourceTree = "<group>"; };
 		36BC23151AED93A70035BD77 /* win.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = win.mp3; sourceTree = "<group>"; };
 		36BC23191AED95270035BD77 /* error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = error.wav; sourceTree = "<group>"; };
-		36BC23211AF027580035BD77 /* AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
-		36BC23221AF027580035BD77 /* AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
+		36BC232A1AF179030035BD77 /* LoseScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoseScene.h; sourceTree = "<group>"; };
+		36BC232B1AF179030035BD77 /* LoseScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoseScene.m; sourceTree = "<group>"; };
+		36BC233B1AF196B00035BD77 /* PassScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassScene.h; sourceTree = "<group>"; };
+		36BC233C1AF196B00035BD77 /* PassScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassScene.m; sourceTree = "<group>"; };
+		36BC233E1AF1992A0035BD77 /* AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertView.h; sourceTree = "<group>"; };
+		36BC233F1AF1992A0035BD77 /* AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertView.m; sourceTree = "<group>"; };
+		36BC23471AF2AB900035BD77 /* HighScore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScore.h; sourceTree = "<group>"; };
+		36BC23481AF2AB900035BD77 /* HighScore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScore.m; sourceTree = "<group>"; };
+		36BC234A1AF2C9890035BD77 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		36BC234C1AF2C9960035BD77 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		36BC234E1AF2C9AB0035BD77 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		36BE04D61ABF6E16005BAA36 /* PlayModeSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayModeSelection.h; path = Source/PlayModeSelection.h; sourceTree = "<group>"; };
 		36BE04D71ABF6E16005BAA36 /* PlayModeSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayModeSelection.m; path = Source/PlayModeSelection.m; sourceTree = "<group>"; };
 		36BE04D91ABF825A005BAA36 /* SpeedMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpeedMode.h; path = Source/SpeedMode.h; sourceTree = "<group>"; };
@@ -328,13 +343,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A97911819E631CD001FFC4D /* libcocos2d.a in Frameworks */,
+				36BC234B1AF2C9890035BD77 /* FBSDKCoreKit.framework in Frameworks */,
 				8392007A18EE8E3300B6C429 /* GLKit.framework in Frameworks */,
 				B77F1B3217B978D7009739AE /* QuartzCore.framework in Frameworks */,
 				B77F1B3417B978D7009739AE /* OpenGLES.framework in Frameworks */,
 				B77F1B3617B978D7009739AE /* OpenAL.framework in Frameworks */,
 				B77F1B3817B978D7009739AE /* AudioToolbox.framework in Frameworks */,
+				36BC234D1AF2C9960035BD77 /* FBSDKLoginKit.framework in Frameworks */,
 				B77F1B3A17B978D7009739AE /* AVFoundation.framework in Frameworks */,
 				B77F1B3C17B978D7009739AE /* UIKit.framework in Frameworks */,
+				36BC234F1AF2C9AB0035BD77 /* FBSDKShareKit.framework in Frameworks */,
 				B77F1B3E17B978D7009739AE /* Foundation.framework in Frameworks */,
 				B77F1B4017B978D7009739AE /* CoreGraphics.framework in Frameworks */,
 				B77F1B4217B978D7009739AE /* CoreText.framework in Frameworks */,
@@ -357,8 +375,14 @@
 		36BE04C41ABB8A10005BAA36 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				36BC23211AF027580035BD77 /* AlertView.h */,
-				36BC23221AF027580035BD77 /* AlertView.m */,
+				36BC23471AF2AB900035BD77 /* HighScore.h */,
+				36BC23481AF2AB900035BD77 /* HighScore.m */,
+				36BC233E1AF1992A0035BD77 /* AlertView.h */,
+				36BC233F1AF1992A0035BD77 /* AlertView.m */,
+				36BC233B1AF196B00035BD77 /* PassScene.h */,
+				36BC233C1AF196B00035BD77 /* PassScene.m */,
+				36BC232A1AF179030035BD77 /* LoseScene.h */,
+				36BC232B1AF179030035BD77 /* LoseScene.m */,
 				36C667341A98481700906C28 /* LetterView.h */,
 				36C667351A98481700906C28 /* LetterView.m */,
 				36C6673E1A9854BB00906C28 /* LetterBox.h */,
@@ -635,6 +659,9 @@
 		B77F1B3017B978D7009739AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				36BC234E1AF2C9AB0035BD77 /* FBSDKShareKit.framework */,
+				36BC234C1AF2C9960035BD77 /* FBSDKLoginKit.framework */,
+				36BC234A1AF2C9890035BD77 /* FBSDKCoreKit.framework */,
 				7A59493C19E37FB200F65F90 /* libz.dylib */,
 				7A59493A19E37F9300F65F90 /* OpenGL.framework */,
 				7A4036F419DE3FA8007B6E8F /* AppKit.framework */,
@@ -992,7 +1019,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36BC23231AF027580035BD77 /* AlertView.m in Sources */,
 				36BE051F1AD72E3D005BAA36 /* HangmanModel.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				366C1F891ADB0874007EBD47 /* LetterBoard.m in Sources */,
@@ -1001,8 +1027,12 @@
 				36BE04DE1ABF82FC005BAA36 /* HangmanMode.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* MainScene.m in Sources */,
 				36BE05221AD8A24B005BAA36 /* Hangman.m in Sources */,
+				36BC23491AF2AB900035BD77 /* HighScore.m in Sources */,
+				36BC232C1AF179030035BD77 /* LoseScene.m in Sources */,
+				36BC23401AF1992A0035BD77 /* AlertView.m in Sources */,
 				36C667361A98481700906C28 /* LetterView.m in Sources */,
 				36BE04DB1ABF825A005BAA36 /* SpeedMode.m in Sources */,
+				36BC233D1AF196B00035BD77 /* PassScene.m in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 				36C667431A9912FB00906C28 /* Gameplay.m in Sources */,
 				36BE04E81ABF8B13005BAA36 /* LevelModel.m in Sources */,
@@ -1368,11 +1398,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Ammmy/Documents/FacebookSDK,
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/Prefix.pch;
@@ -1403,11 +1438,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/Ammmy/Documents/FacebookSDK,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/Prefix.pch;
 				HEADER_SEARCH_PATHS = (

@@ -1,5 +1,5 @@
 //
-//  AlertView.h
+//  LoseScene.h
 //  LetterGame
 //
 //  Created by Xiaofen Liu on 4/29/15.
@@ -8,6 +8,6 @@
 
 #import "CCNode.h"
 
-@interface AlertView : CCNode
+@interface LoseScene : CCNode
 
 @end

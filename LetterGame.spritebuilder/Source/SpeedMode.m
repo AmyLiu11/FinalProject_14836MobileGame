@@ -10,13 +10,14 @@
 #import "Utils.h"
 #import "SpeedMode.h"
 #import "LetterBox.h"
-#import "AlertView.h"
 
 
 @interface SpeedMode()
 
 @property (nonatomic, assign) CCTime countDown;
 @property (nonatomic, strong) LetterBoard * lb;
+@property (nonatomic, strong) CCScene * timeUpScene;
+@property (nonatomic, strong) CCScene * finishScene;
 
 @end
 
@@ -34,9 +35,6 @@
 {
     [super onEnter];
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString * level = [userDefaults stringForKey:LEVEL_KEY];
-    NSNumber * wordIndex = [userDefaults objectForKey:INDEX_KEY];
     [_contentNode setOpacity:0.0f];
     
     CCButton * invibtn = [CCButton buttonWithTitle:@"cg"];
@@ -47,21 +45,41 @@
     [invibtn setBackgroundColor:[CCColor clearColor] forState:CCControlStateNormal];
     [invibtn setBackgroundColor:[CCColor clearColor] forState:CCControlStateSelected];
     
-    if (!level) {
-        self.level = @"easy";
-    }else{
-        self.level = level;
-    }
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithInt:1] forKey:GAME_PLAY_SCENE];
+    NSNumber * resume = [userDefaults objectForKey:START_OVER];
     
-    if (!wordIndex) {
-        self.index = 0;
+    BOOL resumed = resume.boolValue;
+    if (!resumed) {
+        NSString * level = [userDefaults stringForKey:LEVEL_KEY];
+        NSNumber * wordIndex = [userDefaults objectForKey:INDEX_KEY];
+        
+        if (!level) {
+            self.level = @"easy";
+        }else{
+            self.level = level;
+        }
+        
+        if (!wordIndex) {
+            self.index = 0;
+        }else{
+            self.index = [wordIndex integerValue];
+        }
+    
+        NSNumber * score = [userDefaults objectForKey:S_TOTAL_SCORE];
+        self.totalScore = score.integerValue;
     }else{
-        self.index = [wordIndex integerValue];
+        self.index = 0;
+        self.level = @"easy";
+        self.totalScore = 0;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_TOTAL_SCORE];
+        [userDefaults setObject:[NSNumber numberWithInteger:self.index ] forKey:INDEX_KEY];
+        [userDefaults setObject:self.level forKey:LEVEL_KEY];
     }
     
     self.speedModel = [LevelModel modelWithLevel:self.level];
     self.countDown = self.speedModel.timeToSolve;
-    self.totalScore = 0;
     self.pointsPerTile = self.speedModel.pointPerTile;
     
     NSArray * wordArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
@@ -81,13 +99,18 @@
          _timer = [[CCTimer alloc] init];
     }
     
-    CCScene * av = [CCBReader loadAsScene:@"AlertView"];
-    AlertView * avv = (AlertView*)av;
-//    avv.btn1.title = @"Try Again!";
-//    avv.btn2.title = @"Quit!";
-    [self addChild:avv];
-
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReachTimeUp)
+                                                 name:NOTIFICATION_TIME_UP
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFinishTheGame)
+                                                 name:NOTIFICATION_FINISHGAME
+                                               object:nil];
+
+
 }
 
 
@@ -117,6 +140,8 @@
 }
 
 - (void)showPassView{
+    
+    
     UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
                                                      message:[NSString stringWithFormat:@"You have passed %@ level", self.level]
                                                     delegate:self
@@ -132,14 +157,16 @@
     self.countDown--;
     if (self.countDown < 0) {
         [self unschedule:@selector(updateTimeAndScore)];
-        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Time Up!"
-                                                         message:[NSString stringWithFormat:@"You didn't pass %@ level", self.level]
-                                                        delegate:self
-                                               cancelButtonTitle:@"Quit"
-                                               otherButtonTitles: nil];
-        alert.tag = 1;
-        [alert addButtonWithTitle:@"Try Again"];
-        [alert show];
+        
+        if (!self.timeUpScene) {
+            CCScene * timeUpScene = [CCBReader loadAsScene:@"AlertView"];
+            self.timeUpScene = timeUpScene;
+            CGFloat screenWidth = [Utils getScreenWidth];
+            CGFloat screenHeight = [Utils getScreenHeight];
+            self.timeUpScene.position = CGPointMake(screenWidth/2.0, screenHeight/2.0);
+            [self addChild:self.timeUpScene];
+        }
+
         return;
     }
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
@@ -149,46 +176,46 @@
 
 #pragma mark - Alertview Delegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 1) {
-        switch (buttonIndex) {
-            case 0:
-                [self goBack];
-                break;
-            case 1:
-                [self tryAgain];
-                break;
-            default:
-                break;
-        }
-    }else if(alertView.tag == 0){
-        switch (buttonIndex) {
-            case 0:
-                [self goBack];
-                break;
-            case 1:
-                if ([self.level isEqualToString:@"easy"]) {
-                    self.level = @"medium";
-                    [self levelStaff];
-                }else if([self.level isEqualToString:@"medium"]){
-                    self.level = @"hard";
-                    [self levelStaff];
-                }else{
-                    
-                }
-                break;
-            default:
-                break;
-        }
-    }else{
-        switch (buttonIndex) {
-            case 1:
-                [self goBack];
-            default:
-                break;
-        }
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if (alertView.tag == 1) {
+//        switch (buttonIndex) {
+//            case 0:
+//                [self goBack];
+//                break;
+//            case 1:
+//                [self tryAgain];
+//                break;
+//            default:
+//                break;
+//        }
+//    }else if(alertView.tag == 0){
+//        switch (buttonIndex) {
+//            case 0:
+//                [self goBack];
+//                break;
+//            case 1:
+//                if ([self.level isEqualToString:@"easy"]) {
+//                    self.level = @"medium";
+//                    [self levelStaff];
+//                }else if([self.level isEqualToString:@"medium"]){
+//                    self.level = @"hard";
+//                    [self levelStaff];
+//                }else{
+//                    
+//                }
+//                break;
+//            default:
+//                break;
+//        }
+//    }else{
+//        switch (buttonIndex) {
+//            case 1:
+//                [self goBack];
+//            default:
+//                break;
+//        }
+//    }
+//}
 
 
 - (void)goBack{
@@ -205,21 +232,12 @@
 - (void)finishSpeedModeWithlb:(LetterBoard*)lb{
     [self unschedule:@selector(updateTimeAndScore)];
     
-    CCScene * av = [CCBReader loadAsScene:@"AlertView"];
-    AlertView * avv = (AlertView*)av;
-    avv.btn1.title = @"Try Again!";
-    avv.btn2.title = @"Quit!";
-    [[CCDirector sharedDirector] replaceScene:avv];
-    
-    
-//    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
-//                                                     message:[NSString stringWithFormat: @"You have played all levels"]
-//                                                    delegate:self
-//                                           cancelButtonTitle:@"OK"
-//                                           otherButtonTitles: nil];
-//    alert.tag = 2;
-//    [alert addButtonWithTitle:@"Quit Speed Mode"];
-//    [alert show];
+    CCScene * timeUpScene = [CCBReader loadAsScene:@"PassScene"];
+    self.finishScene = timeUpScene;
+    CGFloat screenWidth = [Utils getScreenWidth];
+    CGFloat screenHeight = [Utils getScreenHeight];
+    self.finishScene.position = CGPointMake(screenWidth/2.0, screenHeight/2.0);
+    [self addChild:self.finishScene];
 }
 
 - (void)enterNextLevelWithlb:(LetterBoard*)lb{
@@ -239,8 +257,37 @@
     return YES;
 }
 
+- (void)didReachTimeUp{
+    [self.timeUpScene removeFromParent];
+    [self tryAgain];
+}
+
+- (void)restoreToInitalLevel{
+    self.index = 0;
+    self.totalScore = 0;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_TOTAL_SCORE];
+    [self enterNextWord];
+}
+
+- (void)didFinishTheGame{
+    [self.finishScene removeFromParent];
+    [self restoreToInitalLevel];
+}
+
+
+- (void)enterNextWord{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:INDEX_KEY];
+    [self setUpCharacter];
+}
+
 - (void)hint{
-   [self.lb findFirstUnmatchedBox];
+    [self.lb findFirstUnmatchedBox];
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

@@ -57,7 +57,6 @@
     [self removeAllChildren];
     self.spriteFrame = [CCSpriteFrame frameWithImageNamed:@"LetterGameAssets/twshadow7.png"];
     
-    CCLOG(@"contentSize w:%f h:%f", self.contentSize.width, self.contentSize.height);
     [self addLetterOn:self.contentSize withLetter:self.letter];
     self.scale = self.scale * 1.2;
     CGPoint pt = [touch locationInNode:self.parent];

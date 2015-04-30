@@ -1,15 +1,16 @@
 //
-//  AlertView.m
+//  LoseScene.m
 //  LetterGame
 //
 //  Created by Xiaofen Liu on 4/29/15.
 //  Copyright (c) 2015 Apportable. All rights reserved.
 //
 
-#import "AlertView.h"
+#import "LoseScene.h"
 #import "LGDefines.h"
 
-@implementation AlertView
+@implementation LoseScene
+
 
 - (void)back{
     [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"PlayModeSelection"]];
@@ -17,7 +18,7 @@
 
 - (void)tryAgain{
     NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:NOTIFICATION_TIME_UP object:self];
+    [center postNotificationName:NOTIFICATION_TRY_AGAIN object:self];
 }
 
 @end

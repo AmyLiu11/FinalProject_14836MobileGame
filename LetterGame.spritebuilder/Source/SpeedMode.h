@@ -9,6 +9,7 @@
 #import "CCNode.h"
 #import "LetterBoard.h"
 #import "LevelModel.h"
+#import "LoseScene.h"
 
 
 @interface SpeedMode : CCNode<LetterBoardDelegationProtocol>

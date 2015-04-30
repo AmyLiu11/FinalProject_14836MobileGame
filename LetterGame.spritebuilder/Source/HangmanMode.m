@@ -17,6 +17,8 @@
 @property (nonatomic, assign) CCTime countDown;
 @property (nonatomic, strong) LetterBoard * lb;
 @property (nonatomic, strong) NSNumber * hmnum;
+@property (nonatomic, strong) CCScene * loseScene;
+@property (nonatomic, strong) CCScene * timeUpScene;
 
 
 @end
@@ -32,7 +34,10 @@
     [super onEnter];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSNumber * wordIndex = [userDefaults objectForKey:H_INDEX_KEY];
+    [userDefaults setObject:[NSNumber numberWithInt:2] forKey:GAME_PLAY_SCENE];
+    NSNumber * resume = [userDefaults objectForKey:START_OVER];
+    
+    BOOL resumed = resume.boolValue;
     
     CCButton * invibtn = [CCButton buttonWithTitle:@"cg"];
     [_backbtn addChild:invibtn];
@@ -42,17 +47,30 @@
     [invibtn setBackgroundColor:[CCColor clearColor] forState:CCControlStateNormal];
     [invibtn setBackgroundColor:[CCColor clearColor] forState:CCControlStateSelected];
 
-    if (!wordIndex) {
-        self.index = 0;
+    if (!resumed) {
+        NSNumber * wordIndex = [userDefaults objectForKey:H_INDEX_KEY];
+        
+        if (!wordIndex) {
+            self.index = 0;
+        }else{
+            self.index = [wordIndex integerValue];
+        }
+        
+        NSNumber * score = [userDefaults objectForKey:H_TOTAL_SCORE];
+        self.totalScore = score.integerValue;
     }else{
-        self.index = [wordIndex integerValue];
+        self.index = 0;
+        self.totalScore = 0;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:H_TOTAL_SCORE];
+        [userDefaults setObject:[NSNumber numberWithInteger:self.index] forKey:H_INDEX_KEY];
     }
+
     
     [self schedule:@selector(updateTimeAndScore) interval:1.0f];
     
     self.model = [HangmanModel modelWithLevel];
     self.step = -1;
-    self.totalScore = 0;
     self.countDown = self.model.timeToSolve;
     self.pointsPerTile = self.model.pointPerTile;
     _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
@@ -80,6 +98,22 @@
     }
     NSLog(@"width:%f height:%f", _contentNode.contentSize.width, _contentNode.contentSize.height);
     
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFailTheGame)
+                                                 name:NOTIFICATION_TRY_AGAIN
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didFinishTheGame)
+                                                 name:NOTIFICATION_FINISHGAME
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReachTimeUp)
+                                                 name:NOTIFICATION_TIME_UP
+                                               object:nil];
+    
 }
 
 - (CGFloat)layoutHmWithNum:(NSUInteger)num{
@@ -106,34 +140,31 @@
 - (void)updateTimeAndScore{
     self.countDown--;
     if (self.countDown < 0) {
-        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Time Up!"
-                                                         message:@""
-                                                        delegate:self
-                                               cancelButtonTitle:@"Quit"
-                                               otherButtonTitles: nil];
-        alert.tag = 0;
-        [alert addButtonWithTitle:@"Try Again"];
-        [alert show];
         [self unschedule:@selector(updateTimeAndScore)];
+    
+        if (!self.timeUpScene) {
+            CCScene * timeUpScene = [CCBReader loadAsScene:@"AlertView"];
+            self.timeUpScene = timeUpScene;
+            CGFloat screenWidth = [Utils getScreenWidth];
+            CGFloat screenHeight = [Utils getScreenHeight];
+            self.timeUpScene.position = CGPointMake(screenWidth/2.0, screenHeight/2.0);
+            [self addChild:self.timeUpScene];
+        }
         return;
     }
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
     _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
-    
 }
 
 - (void)showHangmanWithlb:(LetterBoard*)lb{
     self.step++;
-    NSLog(@"step %ld",(long)self.step);
     if (self.step == (HM_DIE_STEP * self.hmnum.intValue - 1)) {
-        UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"You lose!"
-                                                         message:@"Sorry, your man are all dead"
-                                                        delegate:self
-                                               cancelButtonTitle:@"Quit"
-                                               otherButtonTitles: nil];
-        alert.tag = 1;
-        [alert addButtonWithTitle:@"Try Again"];
-        [alert show];
+        CCScene * timeUpScene = [CCBReader loadAsScene:@"LoseScene"];
+        self.loseScene = timeUpScene;
+        CGFloat screenWidth = [Utils getScreenWidth];
+        CGFloat screenHeight = [Utils getScreenHeight];
+        self.loseScene.position = CGPointMake(screenWidth/2.0, screenHeight/2.0);
+        [self addChild:self.loseScene];
         return;
     }
     
@@ -157,22 +188,22 @@
 - (void)finishSpeedModeWithlb:(LetterBoard*)lb{
     [self unschedule:@selector(updateTimeAndScore)];
     self.index = 0;
+    
     NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
     [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:H_INDEX_KEY];
-    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
-                                                     message:[NSString stringWithFormat: @"You just saved all man"]
-                                                    delegate:self
-                                           cancelButtonTitle:@"playAgain?"
-                                           otherButtonTitles: nil];
-    alert.tag = 2;
-    [alert addButtonWithTitle:@"Quit Hangman Mode"];
-    [alert show];
+    
+    CCScene * timeUpScene = [CCBReader loadAsScene:@"PassScene"];
+    self.loseScene = timeUpScene;
+    CGFloat screenWidth = [Utils getScreenWidth];
+    CGFloat screenHeight = [Utils getScreenHeight];
+    self.loseScene.position = CGPointMake(screenWidth/2.0, screenHeight/2.0);
+    [self addChild:self.loseScene];
 }
 
 
 - (void)didFinishOneAnagram:(LetterBoard*)lb{
-//    self.index = self.model.anagramPairs.count - 1;
-    self.index++;
+    self.index = self.model.anagramPairs.count - 1;
+//    self.index++;
     self.totalScore += self.model.pointPerTile;
     [self enterNextWord];
 }
@@ -183,43 +214,6 @@
     }
 }
 
-
-#pragma mark - Alertview Delegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (alertView.tag == 1) {
-        switch (buttonIndex) {
-            case 0:
-                [self goBack];
-                break;
-            case 1:
-                [self tryAgain];
-                break;
-            default:
-                break;
-        }
-    }else if(alertView.tag == 0){
-        switch (buttonIndex) {
-            case 0:
-                [self goBack];
-                break;
-            case 1:
-                [self tryAgain];
-                break;
-            default:
-                break;
-        }
-    }else{
-        switch (buttonIndex) {
-            case 0:
-                [self restoreToInitalLevel];
-            case 1:
-                [self goBack];
-            default:
-                break;
-        }
-    }
-}
 
 - (void)goBack{
     self.index = 0;
@@ -249,6 +243,25 @@
 
 - (void)hint{
     [self.lb findFirstUnmatchedBox];
+}
+
+- (void)didFailTheGame{
+    [self.loseScene removeFromParent];
+    [self tryAgain];
+}
+
+- (void)didFinishTheGame{
+    [self.loseScene removeFromParent];
+    [self restoreToInitalLevel];
+}
+
+- (void)didReachTimeUp{
+    [self.timeUpScene removeFromParent];
+    [self tryAgain];
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

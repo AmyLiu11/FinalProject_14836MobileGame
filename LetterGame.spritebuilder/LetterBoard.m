@@ -43,12 +43,12 @@
         self.completeString = [NSMutableString string];
         self.beforeString = bw;
         self.afterString = aw;
+        self.fixedString = [self.afterString stringByReplacingOccurrencesOfString:@" " withString:@""];
         self.wordCount = c;
         self.isSeekHints = NO;
         self.x_padding = LETTERBOX_X_GAP;
         [self setupLetters];
         [self setupLetterBox];
-        [self showTimeUpAlert];
     }
     return self;
 }
@@ -189,7 +189,6 @@
 
 - (void)letterView:(LetterView *)letterView didDragToPoint:(CGPoint)point{
     LetterBox * targetView = nil;
-    self.fixedString = [self.afterString stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     for (LetterBox* box in self.boxArray) {
         
@@ -341,6 +340,7 @@
     [self removeAllChildrenWithCleanup:YES];
     self.beforeString = bw;
     self.afterString = af;
+    self.fixedString = [self.afterString stringByReplacingOccurrencesOfString:@" " withString:@""];
     [self.completeString setString:@""];
     [self.boxArray removeAllObjects];
     self.comboletterLength = 0.0f;
@@ -348,15 +348,6 @@
     [self setupLetterBox];
 }
 
-- (void)showTimeUpAlert{
-    
-    CGFloat screenWidth = [Utils getScreenWidth];
-    CGFloat screenHeight = [Utils getScreenHeight];
-    
-    CGPoint alertPos = CGPointMake(screenWidth/2, screenHeight/2);
-//    alert.position = alertPos;
-//    [self addChild:alert];
-}
 
 - (void)findFirstUnmatchedBox{
     self.isSeekHints = YES;
@@ -391,17 +382,6 @@
     tile.rotation = 0.0f;
     [unmatchedBox runAction: [CCActionSequence actions: [CCActionDelay actionWithDuration:0.7],fadeOutAction,nil]];
     
-    NSUInteger points = 0;
-    if ([self.delegate isKindOfClass:[SpeedMode class]]) {
-        SpeedMode * mode = (SpeedMode*)self.delegate;
-        points = mode.pointsPerTile;
-    }else{
-        HangmanMode * mode = (HangmanMode*)self.delegate;
-        points = mode.pointsPerTile;
-    }
-    
-    [self showPointsAnimation:unmatchedBox.position withPoint:points];
-    [self addPoints];
     [self.completeString appendString:tile.letter];
     if ([self.completeString isEqualToString:self.fixedString]) {
         [self playSuccessSpellingSound];

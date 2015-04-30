@@ -1,5 +1,5 @@
 //
-//  AlertView.h
+//  PassScene.h
 //  LetterGame
 //
 //  Created by Xiaofen Liu on 4/29/15.
@@ -8,6 +8,6 @@
 
 #import "CCNode.h"
 
-@interface AlertView : CCNode
+@interface PassScene : CCNode
 
 @end

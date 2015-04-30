@@ -9,6 +9,7 @@
 #import "CCNode.h"
 #import "LetterBoard.h"
 #import "HangmanModel.h"
+#import "LoseScene.h"
 
 @interface HangmanMode : CCNode<LetterBoardDelegationProtocol>
 @property (nonatomic, assign) NSUInteger index;
