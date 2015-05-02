@@ -18,5 +18,6 @@
 @property (nonatomic, assign) NSUInteger index;
 @property (nonatomic, assign) NSUInteger pointsPerTile;
 @property (nonatomic, strong) LevelModel * speedModel;
+@property (nonatomic, strong) NSString * currentScene;
 
 @end

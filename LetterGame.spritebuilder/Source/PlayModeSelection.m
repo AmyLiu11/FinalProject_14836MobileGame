@@ -24,7 +24,8 @@
 }
 
 - (void)showSpeedMode{
-    CCScene * speedModeScene = [CCBReader loadAsScene:@"SpeedMode"];
+//    CCScene * speedModeScene = [CCBReader loadAsScene:@"SpeedMode"];
+    CCScene * speedModeScene = [CCBReader loadAsScene:@"LevelView"];
     [[CCDirector sharedDirector] replaceScene:speedModeScene];
 }
 

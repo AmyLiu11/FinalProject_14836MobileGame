@@ -5,8 +5,20 @@
 	<key>anagrams</key>
 	<array>
 		<array>
-			<string>debit card</string>
-			<string>bad credit</string>
+			<string>parks</string>
+			<string>spark</string>
+		</array>
+		<array>
+			<string>diary</string>
+			<string>dairy</string>
+		</array>
+		<array>
+			<string>sales</string>
+			<string>seals</string>
+		</array>
+		<array>
+			<string>meat</string>
+			<string>team</string>
 		</array>
 		<array>
 			<string>admirer</string>
@@ -33,5 +45,7 @@
 	<integer>100</integer>
 	<key>pointsPerTile</key>
 	<integer>10</integer>
+	<key>hinttime</key>
+	<integer>4</integer>
 </dict>
 </plist>

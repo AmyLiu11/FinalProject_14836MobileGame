@@ -18,6 +18,9 @@
 		36BC234B1AF2C9890035BD77 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BC234A1AF2C9890035BD77 /* FBSDKCoreKit.framework */; };
 		36BC234D1AF2C9960035BD77 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BC234C1AF2C9960035BD77 /* FBSDKLoginKit.framework */; };
 		36BC234F1AF2C9AB0035BD77 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36BC234E1AF2C9AB0035BD77 /* FBSDKShareKit.framework */; };
+		36BC23521AF305930035BD77 /* LevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BC23511AF305930035BD77 /* LevelView.m */; };
+		36BC235B1AF46D780035BD77 /* SpeedMediumPassScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BC235A1AF46D780035BD77 /* SpeedMediumPassScene.m */; };
+		36BC235E1AF46DC90035BD77 /* SpeedPassScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BC235D1AF46DC90035BD77 /* SpeedPassScene.m */; };
 		36BE04D81ABF6E16005BAA36 /* PlayModeSelection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04D71ABF6E16005BAA36 /* PlayModeSelection.m */; };
 		36BE04DB1ABF825A005BAA36 /* SpeedMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04DA1ABF825A005BAA36 /* SpeedMode.m */; };
 		36BE04DE1ABF82FC005BAA36 /* HangmanMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BE04DD1ABF82FC005BAA36 /* HangmanMode.m */; };
@@ -209,6 +212,12 @@
 		36BC234A1AF2C9890035BD77 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		36BC234C1AF2C9960035BD77 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		36BC234E1AF2C9AB0035BD77 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		36BC23501AF305930035BD77 /* LevelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelView.h; sourceTree = "<group>"; };
+		36BC23511AF305930035BD77 /* LevelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelView.m; sourceTree = "<group>"; };
+		36BC23591AF46D780035BD77 /* SpeedMediumPassScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeedMediumPassScene.h; sourceTree = "<group>"; };
+		36BC235A1AF46D780035BD77 /* SpeedMediumPassScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeedMediumPassScene.m; sourceTree = "<group>"; };
+		36BC235C1AF46DC90035BD77 /* SpeedPassScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpeedPassScene.h; sourceTree = "<group>"; };
+		36BC235D1AF46DC90035BD77 /* SpeedPassScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeedPassScene.m; sourceTree = "<group>"; };
 		36BE04D61ABF6E16005BAA36 /* PlayModeSelection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayModeSelection.h; path = Source/PlayModeSelection.h; sourceTree = "<group>"; };
 		36BE04D71ABF6E16005BAA36 /* PlayModeSelection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayModeSelection.m; path = Source/PlayModeSelection.m; sourceTree = "<group>"; };
 		36BE04D91ABF825A005BAA36 /* SpeedMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpeedMode.h; path = Source/SpeedMode.h; sourceTree = "<group>"; };
@@ -375,6 +384,10 @@
 		36BE04C41ABB8A10005BAA36 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				36BC23591AF46D780035BD77 /* SpeedMediumPassScene.h */,
+				36BC235A1AF46D780035BD77 /* SpeedMediumPassScene.m */,
+				36BC235C1AF46DC90035BD77 /* SpeedPassScene.h */,
+				36BC235D1AF46DC90035BD77 /* SpeedPassScene.m */,
 				36BC23471AF2AB900035BD77 /* HighScore.h */,
 				36BC23481AF2AB900035BD77 /* HighScore.m */,
 				36BC233E1AF1992A0035BD77 /* AlertView.h */,
@@ -398,6 +411,8 @@
 			children = (
 				36BE04DC1ABF82FC005BAA36 /* HangmanMode.h */,
 				36BE04DD1ABF82FC005BAA36 /* HangmanMode.m */,
+				36BC23501AF305930035BD77 /* LevelView.h */,
+				36BC23511AF305930035BD77 /* LevelView.m */,
 				36BE04D91ABF825A005BAA36 /* SpeedMode.h */,
 				36BE04DA1ABF825A005BAA36 /* SpeedMode.m */,
 				366C1F871ADB0874007EBD47 /* LetterBoard.h */,
@@ -1019,6 +1034,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36BC23521AF305930035BD77 /* LevelView.m in Sources */,
 				36BE051F1AD72E3D005BAA36 /* HangmanModel.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				366C1F891ADB0874007EBD47 /* LetterBoard.m in Sources */,
@@ -1030,6 +1046,8 @@
 				36BC23491AF2AB900035BD77 /* HighScore.m in Sources */,
 				36BC232C1AF179030035BD77 /* LoseScene.m in Sources */,
 				36BC23401AF1992A0035BD77 /* AlertView.m in Sources */,
+				36BC235E1AF46DC90035BD77 /* SpeedPassScene.m in Sources */,
+				36BC235B1AF46D780035BD77 /* SpeedMediumPassScene.m in Sources */,
 				36C667361A98481700906C28 /* LetterView.m in Sources */,
 				36BE04DB1ABF825A005BAA36 /* SpeedMode.m in Sources */,
 				36BC233D1AF196B00035BD77 /* PassScene.m in Sources */,

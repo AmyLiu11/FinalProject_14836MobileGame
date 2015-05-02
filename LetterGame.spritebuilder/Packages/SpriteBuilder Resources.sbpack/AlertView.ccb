@@ -42,6 +42,40 @@
 			<dict>
 				<key>UUID</key>
 				<integer>22</integer>
+				<key>animatedProperties</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>scale</key>
+						<dict>
+							<key>keyframes</key>
+							<array>
+								<dict>
+									<key>easing</key>
+									<dict>
+										<key>type</key>
+										<integer>1</integer>
+									</dict>
+									<key>name</key>
+									<string>scale</string>
+									<key>time</key>
+									<real>0.0</real>
+									<key>type</key>
+									<integer>4</integer>
+									<key>value</key>
+									<array>
+										<real>4.1470422744750977</real>
+										<real>3.4797441959381104</real>
+									</array>
+								</dict>
+							</array>
+							<key>name</key>
+							<string>scale</string>
+							<key>type</key>
+							<integer>4</integer>
+						</dict>
+					</dict>
+				</dict>
 				<key>baseClass</key>
 				<string>CCSprite</string>
 				<key>children</key>
@@ -90,6 +124,11 @@
 						</array>
 					</dict>
 					<dict>
+						<key>baseValue</key>
+						<array>
+							<real>4.1470422744750977</real>
+							<real>3.4797441959381104</real>
+						</array>
 						<key>name</key>
 						<string>scale</string>
 						<key>type</key>
@@ -146,6 +185,8 @@
 						<array/>
 					</dict>
 				</array>
+				<key>seqExpanded</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -366,8 +407,6 @@
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -507,7 +546,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonHighlighted.png</string>
+							<string>LetterGameAssets/squareBlue@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -694,6 +733,8 @@
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 			<dict>
 				<key>UUID</key>
@@ -833,7 +874,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonHighlighted.png</string>
+							<string>LetterGameAssets/squareBlue@4x.png</string>
 						</array>
 					</dict>
 					<dict>

@@ -18,6 +18,8 @@
 @property (nonatomic, strong) LetterBoard * lb;
 @property (nonatomic, strong) CCScene * timeUpScene;
 @property (nonatomic, strong) CCScene * finishScene;
+@property (nonatomic, strong) CCScene * passScene;
+@property (nonatomic, assign) NSInteger hintTime;
 
 @end
 
@@ -47,39 +49,45 @@
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:[NSNumber numberWithInt:1] forKey:GAME_PLAY_SCENE];
-    NSNumber * resume = [userDefaults objectForKey:START_OVER];
+    NSNumber * startagain = [userDefaults objectForKey:START_OVER];
     
-    BOOL resumed = resume.boolValue;
-    if (!resumed) {
-        NSString * level = [userDefaults stringForKey:LEVEL_KEY];
-        NSNumber * wordIndex = [userDefaults objectForKey:INDEX_KEY];
+    if (!startagain.boolValue) {
         
-        if (!level) {
-            self.level = @"easy";
-        }else{
-            self.level = level;
+        if(self.currentScene == nil){
+             self.currentScene = [userDefaults objectForKey:CURRENT_LEVEL];
         }
         
-        if (!wordIndex) {
-            self.index = 0;
+        if([self.currentScene isEqualToString:@"easy"]){
+            NSNumber * wordIndex = [userDefaults objectForKey:EASY_INDEX_KEY];
+            self.index = wordIndex ? wordIndex.integerValue : 0;
+        }else if ([self.currentScene isEqualToString:@"medium"]){
+            NSNumber * wordIndex = [userDefaults objectForKey:MEDI_INDEX_KEY];
+            self.index = wordIndex ? wordIndex.integerValue : 0;
         }else{
-            self.index = [wordIndex integerValue];
+            NSNumber * wordIndex = [userDefaults objectForKey:HARD_INDEX_KEY];
+            self.index = wordIndex ? wordIndex.integerValue : 0;
         }
-    
         NSNumber * score = [userDefaults objectForKey:S_TOTAL_SCORE];
+        NSNumber * hint = [userDefaults objectForKey:HINT_S];
         self.totalScore = score.integerValue;
+        self.hintTime = hint.integerValue;
+        
     }else{
         self.index = 0;
-        self.level = @"easy";
+        self.currentScene = @"easy";
+        self.hintTime = HINT_TIME_FOR_S;
         self.totalScore = 0;
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_TOTAL_SCORE];
-        [userDefaults setObject:[NSNumber numberWithInteger:self.index ] forKey:INDEX_KEY];
-        [userDefaults setObject:self.level forKey:LEVEL_KEY];
+        [userDefaults setObject:[NSNumber numberWithInteger:self.index] forKey:EASY_INDEX_KEY];
+        [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:START_OVER];
     }
     
-    self.speedModel = [LevelModel modelWithLevel:self.level];
+    [userDefaults setObject:self.currentScene forKey:CURRENT_LEVEL];
+    
+    self.speedModel = [LevelModel modelWithLevel:self.currentScene];
     self.countDown = self.speedModel.timeToSolve;
+//    self.countDown = 4;
     self.pointsPerTile = self.speedModel.pointPerTile;
     
     NSArray * wordArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
@@ -109,29 +117,27 @@
                                              selector:@selector(didFinishTheGame)
                                                  name:NOTIFICATION_FINISHGAME
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didPassMedium)
+                                                 name:NOTIFICATION_PLAY_HARD
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didPassEasy)
+                                                 name:NOTIFICATION_PLAY_MEDIUM
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(continuePlayHard)
+                                                 name:NOTIFICATION_CONTINUE_HARD
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(continuePlayMedium)
+                                                 name:NOTIFICATION_CONTINUE_MEDIUM
+                                               object:nil];
 
-
-}
-
-
--(void)enterPreviousLevel{
-    if ([self.level isEqualToString:@"easy"]) {
-        [self showPassView];
-    }else if([self.level isEqualToString:@"medium"]){
-        [self showPassView];
-    }else{
-        [self showPassView];
-    }
-
-}
-
-- (void)levelStaff{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:self.level forKey:LEVEL_KEY];
-    self.speedModel = [LevelModel modelWithLevel:self.level];
-    self.countDown = self.speedModel.timeToSolve;
-    self.index = 0;
-    [self setUpCharacter];
 }
 
 - (void)setUpCharacter{
@@ -140,16 +146,31 @@
 }
 
 - (void)showPassView{
-    
-    
-    UIAlertView * alert =[[UIAlertView alloc ] initWithTitle:@"Congratulations!"
-                                                     message:[NSString stringWithFormat:@"You have passed %@ level", self.level]
-                                                    delegate:self
-                                           cancelButtonTitle:@"Quit"
-                                           otherButtonTitles: nil];
-    alert.tag = 0;
-    [alert addButtonWithTitle:@"Enter Next Level"];
-    [alert show];
+    CGFloat screenWidth = [Utils getScreenWidth];
+    CGFloat screenHeight = [Utils getScreenHeight];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([self.currentScene isEqualToString:@"easy"]){
+        [userDefaults setObject:@"medium" forKey:CURRENT_LEVEL];
+        CCScene * passScene = [CCBReader loadAsScene:@"SpeedPassScene"];
+        self.passScene = passScene;
+        self.passScene.position = CGPointMake(screenWidth/2.0, screenHeight/2.0);
+        [self addChild:self.passScene];
+        [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_PREEASY_SCORE];
+    }else if ([self.currentScene isEqualToString:@"medium"]){
+        [userDefaults setObject:@"hard" forKey:CURRENT_LEVEL];
+        CCScene * passScene = [CCBReader loadAsScene:@"SpeedMediumPassScene"];
+        self.passScene = passScene;
+        self.passScene.position = CGPointMake(screenWidth/2.0, screenHeight/2.0);
+        [self addChild:self.passScene];
+        [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_PREMEDIUM_SCORE];
+    }else{
+        CCScene * timeUpScene = [CCBReader loadAsScene:@"PassScene"];
+        self.finishScene = timeUpScene;
+        CGFloat screenWidth = [Utils getScreenWidth];
+        CGFloat screenHeight = [Utils getScreenHeight];
+        self.finishScene.position = CGPointMake(screenWidth/2.0, screenHeight/2.0);
+        [self addChild:self.finishScene];
+    }
 }
 
 
@@ -174,52 +195,9 @@
     
 }
 
-#pragma mark - Alertview Delegate
-
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    if (alertView.tag == 1) {
-//        switch (buttonIndex) {
-//            case 0:
-//                [self goBack];
-//                break;
-//            case 1:
-//                [self tryAgain];
-//                break;
-//            default:
-//                break;
-//        }
-//    }else if(alertView.tag == 0){
-//        switch (buttonIndex) {
-//            case 0:
-//                [self goBack];
-//                break;
-//            case 1:
-//                if ([self.level isEqualToString:@"easy"]) {
-//                    self.level = @"medium";
-//                    [self levelStaff];
-//                }else if([self.level isEqualToString:@"medium"]){
-//                    self.level = @"hard";
-//                    [self levelStaff];
-//                }else{
-//                    
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//    }else{
-//        switch (buttonIndex) {
-//            case 1:
-//                [self goBack];
-//            default:
-//                break;
-//        }
-//    }
-//}
-
 
 - (void)goBack{
-    [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"PlayModeSelection"]];
+    [[CCDirector sharedDirector] replaceScene: [CCBReader loadAsScene:@"LevelView"]];
 }
 
 - (void)tryAgain{
@@ -245,16 +223,22 @@
 }
 
 - (void)didFinishOneAnagram:(LetterBoard*)lb{
-    self.index++;
-//    self.index = 5;
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:INDEX_KEY];
+//    self.index++;
+    self.index = self.speedModel.anagramPairs.count - 1;
+    [self saveIndexKeyForLevel:self.currentScene];
     [self setUpCharacter];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return YES;
+- (void)saveIndexKeyForLevel:(NSString*)level{
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    
+    if([self.currentScene isEqualToString:@"easy"]){
+        [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:EASY_INDEX_KEY];
+    }else if ([self.currentScene isEqualToString:@"medium"]){
+        [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:MEDI_INDEX_KEY];
+    }else{
+        [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:HARD_INDEX_KEY];
+    }
 }
 
 - (void)didReachTimeUp{
@@ -262,32 +246,102 @@
     [self tryAgain];
 }
 
-- (void)restoreToInitalLevel{
+- (void)didFinishTheGame{
+    [self.finishScene removeFromParent];
+    [self restoreToLevel:@"easy"];
+}
+
+- (void)didPassEasy{
+    [self.passScene removeFromParent];
+    [self restoreToLevel:@"easy"];
+}
+
+- (void)didPassMedium{
+    [self.passScene removeFromParent];
+    [self restoreToLevel:@"medium"];
+}
+
+- (void)continuePlayHard{
+    [self.passScene removeFromParent];
+    [self continueToNextLevel:@"hard"];
+}
+
+- (void)continuePlayMedium{
+    [self.passScene removeFromParent];
+    [self continueToNextLevel:@"medium"];
+}
+
+- (void)restoreToLevel:(NSString*)level{
     self.index = 0;
-    self.totalScore = 0;
+    [self schedule:@selector(updateTimeAndScore) interval:1.0f];
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber * highNumber = [userDefaults objectForKey:S_HIGH_SCORE];
+    NSUInteger hscore = highNumber.integerValue < self.totalScore ? self.totalScore : highNumber.integerValue;
+    [userDefaults setObject:[NSNumber numberWithInteger:hscore] forKey:S_HIGH_SCORE];
+    NSNumber * preScore = nil;
+    if ([level isEqualToString:@"medium"]) {
+        preScore = [userDefaults objectForKey:S_PREEASY_SCORE];
+    }else if ([level isEqualToString:@"hard"]){
+        preScore = [userDefaults objectForKey:S_PREMEDIUM_SCORE];
+    }else{
+        preScore = 0;
+    }
+    self.totalScore = preScore.integerValue;
+    self.currentScene = level;
+    [userDefaults setObject:level forKey:CURRENT_LEVEL];
+    [self saveIndexKeyForLevel:self.currentScene];
+    self.speedModel = [LevelModel modelWithLevel:self.currentScene];
+    self.countDown = self.speedModel.timeToSolve;
+    self.pointsPerTile = self.speedModel.pointPerTile;
     [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_TOTAL_SCORE];
     [self enterNextWord];
 }
 
-- (void)didFinishTheGame{
-    [self.finishScene removeFromParent];
-    [self restoreToInitalLevel];
+- (void)continueToNextLevel:(NSString*)level{
+    self.index = 0;
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber * highNumber = [userDefaults objectForKey:S_HIGH_SCORE];
+    NSUInteger hscore = highNumber.integerValue < self.totalScore ? self.totalScore : highNumber.integerValue;
+    [userDefaults setObject:[NSNumber numberWithInteger:hscore] forKey:S_HIGH_SCORE];
+    self.currentScene = level;
+    [userDefaults setObject:level forKey:CURRENT_LEVEL];
+    [self saveIndexKeyForLevel:self.currentScene];
+    self.speedModel = [LevelModel modelWithLevel:self.currentScene];
+    self.countDown = self.speedModel.timeToSolve;
+    self.pointsPerTile = self.speedModel.pointPerTile;
+    [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_TOTAL_SCORE];
+    [self enterNextWord];
+
 }
 
 
 - (void)enterNextWord{
-    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setObject:[NSNumber numberWithInteger:self.index] forKey:INDEX_KEY];
     [self setUpCharacter];
 }
 
 - (void)hint{
+    self.hintTime--;
+    if(self.hintTime < 0){
+        return;
+    }
     [self.lb findFirstUnmatchedBox];
 }
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+- (void)onExit{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber * highNumber = [userDefaults objectForKey:S_HIGH_SCORE];
+    NSUInteger hscore = highNumber.integerValue < self.totalScore ? self.totalScore : highNumber.integerValue;
+    [userDefaults setObject:[NSNumber numberWithInteger:hscore] forKey:S_HIGH_SCORE];
+    [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_TOTAL_SCORE];
+    [userDefaults setObject:[NSNumber numberWithInteger:self.hintTime] forKey:HINT_S];
+    [super onExit];
+}
+
 
 @end

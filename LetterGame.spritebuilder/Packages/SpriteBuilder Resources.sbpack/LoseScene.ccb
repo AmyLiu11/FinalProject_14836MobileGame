@@ -285,7 +285,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonHighlighted.png</string>
+							<string>LetterGameAssets/squareBlue@4x.png</string>
 						</array>
 					</dict>
 					<dict>
@@ -613,7 +613,7 @@
 						<key>value</key>
 						<array>
 							<string></string>
-							<string>ccbResources/ccbButtonHighlighted.png</string>
+							<string>LetterGameAssets/squareBlue@4x.png</string>
 						</array>
 					</dict>
 					<dict>

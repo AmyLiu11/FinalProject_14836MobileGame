@@ -32,8 +32,8 @@
     [invibtn setBackgroundColor:[CCColor clearColor] forState:CCControlStateSelected];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSNumber * hscore = [userDefaults objectForKey:H_TOTAL_SCORE];
-    NSNumber * sscore = [userDefaults objectForKey:S_TOTAL_SCORE];
+    NSNumber * hscore = [userDefaults objectForKey:H_HIGH_SCORE];
+    NSNumber * sscore = [userDefaults objectForKey:S_HIGH_SCORE];
     _speedscore.string = [NSString stringWithFormat:@"%lu", (unsigned long)sscore.integerValue];
     _hangmanscore.string = [NSString stringWithFormat:@"%lu", (unsigned long)hscore.integerValue];
     
@@ -63,16 +63,5 @@
                                         delegate:nil];
     }
 }
-
-- (void)touchMoved:(CCTouch *)touch withEvent:(CCTouchEvent *)event
-{
-
-}
-
--(void)touchEnded:(CCTouch *)touch withEvent:(CCTouchEvent *)event
-{
-
-}
-
 
 @end

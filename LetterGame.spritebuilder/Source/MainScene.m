@@ -31,6 +31,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:RESUME_HIDDEN];
     [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:START_OVER];
+    [userDefaults setObject:@"easy" forKey:CURRENT_LEVEL];
     
     CCScene *gameplayScene = [CCBReader loadAsScene:@"PlayModeSelection"];
     [[CCDirector sharedDirector] replaceScene:gameplayScene];

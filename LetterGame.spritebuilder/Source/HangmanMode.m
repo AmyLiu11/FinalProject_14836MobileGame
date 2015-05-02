@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSNumber * hmnum;
 @property (nonatomic, strong) CCScene * loseScene;
 @property (nonatomic, strong) CCScene * timeUpScene;
-
+@property (nonatomic, assign) NSInteger hintTime;
 
 @end
 @implementation HangmanMode{
@@ -57,13 +57,17 @@
         }
         
         NSNumber * score = [userDefaults objectForKey:H_TOTAL_SCORE];
+        NSNumber * hint = [userDefaults objectForKey:HINT_H];
         self.totalScore = score.integerValue;
+        self.hintTime = hint.integerValue;
     }else{
         self.index = 0;
         self.totalScore = 0;
+        self.hintTime = HINT_TIME_FOR_H;
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:H_TOTAL_SCORE];
         [userDefaults setObject:[NSNumber numberWithInteger:self.index] forKey:H_INDEX_KEY];
+        [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:START_OVER];
     }
 
     
@@ -96,8 +100,6 @@
     if (!_timer) {
         _timer = [[CCTimer alloc] init];
     }
-    NSLog(@"width:%f height:%f", _contentNode.contentSize.width, _contentNode.contentSize.height);
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didFailTheGame)
@@ -202,8 +204,8 @@
 
 
 - (void)didFinishOneAnagram:(LetterBoard*)lb{
-    self.index = self.model.anagramPairs.count - 1;
-//    self.index++;
+//    self.index = self.model.anagramPairs.count - 1;
+    self.index++;
     self.totalScore += self.model.pointPerTile;
     [self enterNextWord];
 }
@@ -229,6 +231,8 @@
 
 - (void)restoreToInitalLevel{
     self.index = 0;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:H_TOTAL_SCORE];
     self.totalScore = 0;
     [self enterNextWord];
 }
@@ -242,11 +246,18 @@
 }
 
 - (void)hint{
+    self.hintTime--;
+    if(self.hintTime < 0){
+        
+        return;
+    }
     [self.lb findFirstUnmatchedBox];
 }
 
 - (void)didFailTheGame{
     [self.loseScene removeFromParent];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:H_TOTAL_SCORE];
     [self tryAgain];
 }
 
@@ -257,11 +268,21 @@
 
 - (void)didReachTimeUp{
     [self.timeUpScene removeFromParent];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:H_TOTAL_SCORE];
     [self tryAgain];
 }
 
+
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)onExit{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:H_TOTAL_SCORE];
+    [userDefaults setObject:[NSNumber numberWithInteger:self.hintTime] forKey:HINT_H];
+    [super onExit];
 }
 
 

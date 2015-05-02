@@ -252,7 +252,7 @@
     if ([self.delegate isKindOfClass:[SpeedMode class]]) {
         SpeedMode * mode = (SpeedMode*)self.delegate;
         if (mode.index == (mode.speedModel.anagramPairs.count - 1)) {
-            if ([mode.level isEqualToString:@"hard"]) {
+            if ([mode.currentScene isEqualToString:@"hard"]) {
                 [self.delegate finishSpeedModeWithlb:self];
             }else{
                 [self.delegate enterNextLevelWithlb:self];
@@ -284,7 +284,6 @@
                      animations:^{
                          lView.position = targetView.position;
                          lView.rotation = 0.0f;
-                         //                         tileView.transform = CGAffineTransformIdentity;
                      }
                      completion:^(BOOL finished){
                          targetView.visible = NO;

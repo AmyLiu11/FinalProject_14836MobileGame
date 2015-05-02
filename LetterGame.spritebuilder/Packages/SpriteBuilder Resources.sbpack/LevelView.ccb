@@ -10,7 +10,7 @@
 		<false/>
 	</dict>
 	<key>UUID</key>
-	<integer>9</integer>
+	<integer>10</integer>
 	<key>centeredOrigin</key>
 	<false/>
 	<key>currentResolution</key>
@@ -49,7 +49,7 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>dot-square-ip5@4x</string>
+				<string>background</string>
 				<key>memberVarAssignmentName</key>
 				<string></string>
 				<key>memberVarAssignmentType</key>
@@ -165,9 +165,9 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>Level-1-Star@4x</string>
+				<string>Level-1</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>_LevelOne</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -265,114 +265,6 @@
 			</dict>
 			<dict>
 				<key>UUID</key>
-				<integer>4</integer>
-				<key>baseClass</key>
-				<string>CCSprite</string>
-				<key>children</key>
-				<array/>
-				<key>customClass</key>
-				<string></string>
-				<key>displayName</key>
-				<string>Level-2-Star@4x</string>
-				<key>memberVarAssignmentName</key>
-				<string></string>
-				<key>memberVarAssignmentType</key>
-				<integer>1</integer>
-				<key>properties</key>
-				<array>
-					<dict>
-						<key>name</key>
-						<string>name</string>
-						<key>type</key>
-						<string>StringSimple</string>
-						<key>value</key>
-						<string></string>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>position</string>
-						<key>type</key>
-						<string>Position</string>
-						<key>value</key>
-						<array>
-							<real>-857.91693115234375</real>
-							<real>-265.76806640625</real>
-							<integer>0</integer>
-							<integer>0</integer>
-							<integer>0</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>anchorPoint</string>
-						<key>type</key>
-						<string>Point</string>
-						<key>value</key>
-						<array>
-							<real>0.5</real>
-							<real>0.5</real>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>scale</string>
-						<key>type</key>
-						<string>ScaleLock</string>
-						<key>value</key>
-						<array>
-							<real>1</real>
-							<real>1</real>
-							<false/>
-							<integer>0</integer>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>spriteFrame</string>
-						<key>type</key>
-						<string>SpriteFrame</string>
-						<key>value</key>
-						<array>
-							<string></string>
-							<string>LetterGameAssets/Level-2-Star@4x.png</string>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>normalMapSpriteFrame</string>
-						<key>type</key>
-						<string>SpriteFrame</string>
-						<key>value</key>
-						<array>
-							<string></string>
-							<string></string>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>color</string>
-						<key>type</key>
-						<string>Color3</string>
-						<key>value</key>
-						<array>
-							<real>1</real>
-							<real>1</real>
-							<real>1</real>
-							<real>1</real>
-						</array>
-					</dict>
-					<dict>
-						<key>name</key>
-						<string>effects</string>
-						<key>type</key>
-						<string>EffectControl</string>
-						<key>value</key>
-						<array/>
-					</dict>
-				</array>
-			</dict>
-			<dict>
-				<key>UUID</key>
 				<integer>5</integer>
 				<key>baseClass</key>
 				<string>CCSprite</string>
@@ -383,7 +275,7 @@
 				<key>displayName</key>
 				<string>Level-2-Star@4x</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>_LevelTwo</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -403,7 +295,7 @@
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>161.22990417480469</real>
+							<real>160.12794494628906</real>
 							<real>287.98721313476562</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -491,7 +383,7 @@
 				<key>displayName</key>
 				<string>Level-3-Star@4x</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>_LevelThree</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -597,9 +489,9 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>Level-Locked@4x</string>
+				<string>level2Lock</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>_LevelTwoLock</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -620,7 +512,7 @@
 						<key>value</key>
 						<array>
 							<real>161.22990417480469</real>
-							<real>481.9122314453125</real>
+							<real>298.90994262695312</real>
 							<integer>0</integer>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -705,9 +597,9 @@
 				<key>customClass</key>
 				<string></string>
 				<key>displayName</key>
-				<string>Level-Locked@4x</string>
+				<string>level3Lock</string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>_LevelThreeLock</string>
 				<key>memberVarAssignmentType</key>
 				<integer>1</integer>
 				<key>properties</key>
@@ -802,10 +694,120 @@
 						<array/>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
+			</dict>
+			<dict>
+				<key>UUID</key>
+				<integer>9</integer>
+				<key>baseClass</key>
+				<string>CCSprite</string>
+				<key>children</key>
+				<array/>
+				<key>customClass</key>
+				<string></string>
+				<key>displayName</key>
+				<string>back</string>
+				<key>memberVarAssignmentName</key>
+				<string>_backbtn</string>
+				<key>memberVarAssignmentType</key>
+				<integer>1</integer>
+				<key>properties</key>
+				<array>
+					<dict>
+						<key>name</key>
+						<string>name</string>
+						<key>type</key>
+						<string>StringSimple</string>
+						<key>value</key>
+						<string></string>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>position</string>
+						<key>type</key>
+						<string>Position</string>
+						<key>value</key>
+						<array>
+							<real>28.065790176391602</real>
+							<real>29.859542846679688</real>
+							<integer>0</integer>
+							<integer>0</integer>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>anchorPoint</string>
+						<key>type</key>
+						<string>Point</string>
+						<key>value</key>
+						<array>
+							<real>0.45837482810020447</real>
+							<real>0.48502692580223083</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>scale</string>
+						<key>type</key>
+						<string>ScaleLock</string>
+						<key>value</key>
+						<array>
+							<real>1.3606424331665039</real>
+							<real>1.3680589199066162</real>
+							<false/>
+							<integer>0</integer>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>spriteFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string>LetterGameAssets/Back@4x.png</string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>normalMapSpriteFrame</string>
+						<key>type</key>
+						<string>SpriteFrame</string>
+						<key>value</key>
+						<array>
+							<string></string>
+							<string></string>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>color</string>
+						<key>type</key>
+						<string>Color3</string>
+						<key>value</key>
+						<array>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+							<real>1</real>
+						</array>
+					</dict>
+					<dict>
+						<key>name</key>
+						<string>effects</string>
+						<key>type</key>
+						<string>EffectControl</string>
+						<key>value</key>
+						<array/>
+					</dict>
+				</array>
 			</dict>
 		</array>
 		<key>customClass</key>
-		<string></string>
+		<string>LevelView</string>
 		<key>displayName</key>
 		<string>CCNode</string>
 		<key>memberVarAssignmentName</key>

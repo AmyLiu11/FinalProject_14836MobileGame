@@ -2,17 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>hinttime</key>
+	<integer>10</integer>
 	<key>anagrams</key>
 	<array>
 		<array>
 			<integer>1</integer>
-			<string>considerate</string>
-			<string>care is noted</string>
+			<string>an aisle</string>
+			<string>is a lane</string>
 		</array>
 		<array>
 			<integer>1</integer>
-			<string>pools</string>
-			<string>spool</string>
+			<string>limericks</string>
+			<string>slick rime</string>
 		</array>
 		<array>
 			<integer>1</integer>
@@ -30,7 +32,7 @@
 			<string>married</string>
 		</array>
 		<array>
-			<integer>2</integer>
+			<integer>1</integer>
 			<string>meals</string>
 			<string>males</string>
 		</array>
@@ -40,7 +42,7 @@
 			<string>silent</string>
 		</array>
 		<array>
-			<integer>2</integer>
+			<integer>1</integer>
 			<string>march</string>
 			<string>charm</string>
 		</array>
