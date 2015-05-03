@@ -223,6 +223,7 @@
 }
 
 - (void)tryAgain{
+    [_timeLabel setColor:[CCColor whiteColor]];
     [self schedule:@selector(updateTimeAndScore) interval:1.0f];
      self.countDown = self.speedModel.timeToSolve;
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
@@ -317,6 +318,7 @@
     self.countDown = self.speedModel.timeToSolve;
     self.pointsPerTile = self.speedModel.pointPerTile;
     [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_TOTAL_SCORE];
+    [_timeLabel setColor:[CCColor whiteColor]];
     [self enterNextWord];
 }
 
@@ -334,8 +336,8 @@
     self.countDown = self.speedModel.timeToSolve;
     self.pointsPerTile = self.speedModel.pointPerTile;
     [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:S_TOTAL_SCORE];
+    [_timeLabel setColor:[CCColor whiteColor]];
     [self enterNextWord];
-
 }
 
 

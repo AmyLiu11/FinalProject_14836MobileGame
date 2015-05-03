@@ -787,8 +787,6 @@ certain amount of times</string>
 						</array>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -817,7 +815,7 @@ certain amount of times</string>
 									<integer>4</integer>
 									<key>value</key>
 									<array>
-										<real>1.0142257213592529</real>
+										<real>1.1839964389801025</real>
 										<real>1.6539108753204346</real>
 									</array>
 								</dict>
@@ -858,7 +856,7 @@ certain amount of times</string>
 						<string>Position</string>
 						<key>value</key>
 						<array>
-							<real>160.67271423339844</real>
+							<real>172.67271423339844</real>
 							<real>519.63128662109375</real>
 							<integer>0</integer>
 							<integer>0</integer>
@@ -888,7 +886,7 @@ certain amount of times</string>
 						<string>ScaleLock</string>
 						<key>value</key>
 						<array>
-							<real>1.0142257213592529</real>
+							<real>1.1839964389801025</real>
 							<real>1.6539108753204346</real>
 							<false/>
 							<integer>0</integer>
@@ -1051,6 +1049,8 @@ in time</string>
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>

@@ -75,6 +75,7 @@
     self.model = [HangmanModel modelWithLevel];
     self.step = -1;
     self.countDown = self.model.timeToSolve;
+//    self.countDown = 4;
     self.pointsPerTile = self.model.pointPerTile;
     _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
