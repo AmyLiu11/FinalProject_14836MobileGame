@@ -739,8 +739,6 @@
 						<real>0.0</real>
 					</dict>
 				</array>
-				<key>selected</key>
-				<true/>
 				<key>seqExpanded</key>
 				<true/>
 			</dict>
@@ -1383,7 +1381,7 @@
 						<string>String</string>
 						<key>value</key>
 						<array>
-							<string>Hint</string>
+							<string>Next</string>
 							<false/>
 						</array>
 					</dict>
@@ -1593,6 +1591,8 @@
 						</array>
 					</dict>
 				</array>
+				<key>selected</key>
+				<true/>
 			</dict>
 		</array>
 		<key>customClass</key>
