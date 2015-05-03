@@ -7,32 +7,44 @@
 	<key>anagrams</key>
 	<array>
 		<array>
+			<string>races</string>
+			<string>cares</string>
+		</array>
+		<array>
+			<string>votes</string>
+			<string>stove</string>
+		</array>
+		<array>
 			<string>truth is</string>
 			<string>it hurts</string>
 		</array>
 		<array>
-			<string>skill</string>
-			<string>kills</string>
+			<string>fringe</string>
+			<string>finger</string>
 		</array>
 		<array>
-			<string>a telescope</string>
-			<string>to see place</string>
+			<string>the eyes</string>
+			<string>they see</string>
 		</array>
 		<array>
-			<string>keen</string>
-			<string>knee</string>
+			<string>limped</string>
+			<string>dimple</string>
 		</array>
 		<array>
 			<string>this ear</string>
 			<string>it hears</string>
 		</array>
 		<array>
-			<string>strip</string>
-			<string>trips</string>
+			<string>salvages</string>
+			<string>las vegas</string>
+		</array>
+		<array>
+			<string>enlarge</string>
+			<string>general</string>
 		</array>
 	</array>
 	<key>timeToSolve</key>
-	<integer>240</integer>
+	<integer>360</integer>
 	<key>pointsPerTile</key>
 	<integer>30</integer>
 </dict>

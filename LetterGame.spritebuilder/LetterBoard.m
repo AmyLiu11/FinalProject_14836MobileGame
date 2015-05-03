@@ -312,7 +312,7 @@
 - (void)showPointsAnimation:(CGPoint)effectPoint withPoint:(NSUInteger)points{
     CGFloat screenWidth = [Utils getScreenWidth];
     CGFloat screenHeight = [Utils getScreenHeight];
-    CCLabelTTF * pointsLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"+%lu",(unsigned long)points] fontName:@"Arial-BoldMT" fontSize:50];
+    CCLabelTTF * pointsLabel = [[CCLabelTTF alloc] initWithString:[NSString stringWithFormat:@"+%lu",(unsigned long)points] fontName:@"Arial-BoldMT" fontSize:60];
     pointsLabel.fontColor = [CCColor greenColor];
     pointsLabel.anchorPoint = CGPointMake(0.5f, 0.5f);
     pointsLabel.position = CGPointMake(screenWidth/2.0f, screenHeight/2.0f);

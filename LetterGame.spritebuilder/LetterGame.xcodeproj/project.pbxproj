@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		36130E3B1AF5B8420013AA36 /* TutorialHangman.m in Sources */ = {isa = PBXBuildFile; fileRef = 36130E3A1AF5B8420013AA36 /* TutorialHangman.m */; };
 		366C1F891ADB0874007EBD47 /* LetterBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 366C1F881ADB0874007EBD47 /* LetterBoard.m */; };
+		36A69EE81AF59D9D00512542 /* TutorialSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 36A69EE71AF59D9D00512542 /* TutorialSpeed.m */; };
 		36BC23141AED93990035BD77 /* ding.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 36BC23131AED93990035BD77 /* ding.mp3 */; };
 		36BC23171AED93A70035BD77 /* win.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 36BC23151AED93A70035BD77 /* win.mp3 */; };
 		36BC231A1AED95270035BD77 /* error.wav in Resources */ = {isa = PBXBuildFile; fileRef = 36BC23191AED95270035BD77 /* error.wav */; };
@@ -196,8 +198,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		36130E391AF5B8420013AA36 /* TutorialHangman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialHangman.h; sourceTree = "<group>"; };
+		36130E3A1AF5B8420013AA36 /* TutorialHangman.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialHangman.m; sourceTree = "<group>"; };
 		366C1F871ADB0874007EBD47 /* LetterBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LetterBoard.h; sourceTree = "<group>"; };
 		366C1F881ADB0874007EBD47 /* LetterBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LetterBoard.m; sourceTree = "<group>"; };
+		36A69EE61AF59D9D00512542 /* TutorialSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialSpeed.h; sourceTree = "<group>"; };
+		36A69EE71AF59D9D00512542 /* TutorialSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialSpeed.m; sourceTree = "<group>"; };
 		36BC23131AED93990035BD77 /* ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ding.mp3; sourceTree = "<group>"; };
 		36BC23151AED93A70035BD77 /* win.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = win.mp3; sourceTree = "<group>"; };
 		36BC23191AED95270035BD77 /* error.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = error.wav; sourceTree = "<group>"; };
@@ -384,6 +390,10 @@
 		36BE04C41ABB8A10005BAA36 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				36130E391AF5B8420013AA36 /* TutorialHangman.h */,
+				36130E3A1AF5B8420013AA36 /* TutorialHangman.m */,
+				36A69EE61AF59D9D00512542 /* TutorialSpeed.h */,
+				36A69EE71AF59D9D00512542 /* TutorialSpeed.m */,
 				36BC23591AF46D780035BD77 /* SpeedMediumPassScene.h */,
 				36BC235A1AF46D780035BD77 /* SpeedMediumPassScene.m */,
 				36BC235C1AF46DC90035BD77 /* SpeedPassScene.h */,
@@ -1036,6 +1046,7 @@
 			files = (
 				36BC23521AF305930035BD77 /* LevelView.m in Sources */,
 				36BE051F1AD72E3D005BAA36 /* HangmanModel.m in Sources */,
+				36130E3B1AF5B8420013AA36 /* TutorialHangman.m in Sources */,
 				B73789871807631A0076A88C /* main.m in Sources */,
 				366C1F891ADB0874007EBD47 /* LetterBoard.m in Sources */,
 				36BE05081AC20583005BAA36 /* Utils.m in Sources */,
@@ -1047,6 +1058,7 @@
 				36BC232C1AF179030035BD77 /* LoseScene.m in Sources */,
 				36BC23401AF1992A0035BD77 /* AlertView.m in Sources */,
 				36BC235E1AF46DC90035BD77 /* SpeedPassScene.m in Sources */,
+				36A69EE81AF59D9D00512542 /* TutorialSpeed.m in Sources */,
 				36BC235B1AF46D780035BD77 /* SpeedMediumPassScene.m in Sources */,
 				36C667361A98481700906C28 /* LetterView.m in Sources */,
 				36BE04DB1ABF825A005BAA36 /* SpeedMode.m in Sources */,

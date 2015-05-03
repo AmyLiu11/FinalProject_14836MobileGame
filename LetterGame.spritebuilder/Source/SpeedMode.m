@@ -30,6 +30,7 @@
     CCLabelTTF *_scoreLabel;
     CCNode * _contentNode;
     CCSprite * _backbtn;
+    CCButton * _hint;
 }
 
 
@@ -91,12 +92,11 @@
     self.pointsPerTile = self.speedModel.pointPerTile;
     
     NSArray * wordArr = [self.speedModel.anagramPairs objectAtIndex:self.index];
-    [_scoreLabel setColor:[CCColor redColor]];
-    [_timeLabel setColor:[CCColor redColor]];
+    [_timeLabel setColor:[CCColor whiteColor]];
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
     _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
     
-    [self schedule:@selector(updateTimeAndScore) interval:1.0f];
+    [self showTutorial];
     
     self.lb = [[LetterBoard alloc] initWithBeforeWord:[wordArr objectAtIndex:0] afterW:[wordArr objectAtIndex:1] withCount:self.speedModel.anagramPairs.count];
     self.lb.delegate = self;
@@ -106,7 +106,6 @@
     if (!_timer) {
          _timer = [[CCTimer alloc] init];
     }
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReachTimeUp)
@@ -137,7 +136,26 @@
                                              selector:@selector(continuePlayMedium)
                                                  name:NOTIFICATION_CONTINUE_MEDIUM
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(beginCountingTimer)
+                                                 name:BEGIN_COUNT
+                                               object:nil];
 
+}
+
+
+- (void)beginCountingTimer{
+    [self schedule:@selector(updateTimeAndScore) interval:1.0f];
+}
+
+- (void)stopCountingTimer{
+    [self unschedule:@selector(updateTimeAndScore)];
+}
+
+- (void)showTutorial{
+    CCScene * tutorScene = [CCBReader loadAsScene:@"TutorialSpeed"];
+    [self addChild:tutorScene];
 }
 
 - (void)setUpCharacter{
@@ -176,8 +194,12 @@
 
 - (void)updateTimeAndScore{
     self.countDown--;
+    
+    if (self.countDown < 60) {
+        [_timeLabel setColor:[CCColor redColor]];
+    }
     if (self.countDown < 0) {
-        [self unschedule:@selector(updateTimeAndScore)];
+        [self stopCountingTimer];
         
         if (!self.timeUpScene) {
             CCScene * timeUpScene = [CCBReader loadAsScene:@"AlertView"];
@@ -223,8 +245,8 @@
 }
 
 - (void)didFinishOneAnagram:(LetterBoard*)lb{
-//    self.index++;
-    self.index = self.speedModel.anagramPairs.count - 1;
+    self.index++;
+//    self.index = self.speedModel.anagramPairs.count - 1;
     [self saveIndexKeyForLevel:self.currentScene];
     [self setUpCharacter];
 }
@@ -324,7 +346,10 @@
 - (void)hint{
     self.hintTime--;
     if(self.hintTime < 0){
+        _hint.enabled = NO;
         return;
+    }else{
+        _hint.enabled = YES;
     }
     [self.lb findFirstUnmatchedBox];
 }

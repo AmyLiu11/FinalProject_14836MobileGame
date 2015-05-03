@@ -51,5 +51,8 @@
 #define NOTIFICATION_PLAY_HARD @"playhardnotification"
 #define NOTIFICATION_CONTINUE_HARD @"continuehardnotification"
 #define NOTIFICATION_CONTINUE_MEDIUM @"continuemediumnotification"
+#define SHOW_TUTORIAL_S @"show_tutorial_s"
+#define SHOW_TUTORIAL_h @"show_tutorial_h"
+#define BEGIN_COUNT @"begin_count"
 
 #endif

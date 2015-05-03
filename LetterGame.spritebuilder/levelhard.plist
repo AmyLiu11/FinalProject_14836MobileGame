@@ -7,8 +7,20 @@
 	<key>anagrams</key>
 	<array>
 		<array>
-			<string>dormitory</string>
-			<string>dirty room</string>
+			<string>mummy</string>
+			<string>my mum</string>
+		</array>
+		<array>
+			<string>semolina</string>
+			<string>is no meal</string>
+		</array>
+		<array>
+			<string>mel gibson</string>
+			<string>bong smile</string>
+		</array>
+		<array>
+			<string>the ears</string>
+			<string>hear set</string>
 		</array>
 		<array>
 			<string>tired nerves</string>
@@ -23,16 +35,16 @@
 			<string>no wire unsent</string>
 		</array>
 		<array>
-			<string>Fourth of July</string>
+			<string>fourth of july</string>
 			<string>joyful fourth</string>
 		</array>
 		<array>
-			<string>signature</string>
-			<string>a true sign</string>
+			<string>funeral</string>
+			<string>real fun</string>
 		</array>
 	</array>
 	<key>timeToSolve</key>
-	<integer>300</integer>
+	<integer>600</integer>
 	<key>pointsPerTile</key>
 	<integer>50</integer>
 </dict>

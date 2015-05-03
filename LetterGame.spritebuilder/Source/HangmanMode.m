@@ -69,9 +69,8 @@
         [userDefaults setObject:[NSNumber numberWithInteger:self.index] forKey:H_INDEX_KEY];
         [userDefaults setObject:[NSNumber numberWithBool:NO] forKey:START_OVER];
     }
-
     
-    [self schedule:@selector(updateTimeAndScore) interval:1.0f];
+    [self showTutorial];
     
     self.model = [HangmanModel modelWithLevel];
     self.step = -1;
@@ -94,9 +93,7 @@
     CGPoint worldPoint = ccp(0,hm_h - 200);
     CGPoint contentPoint = [_contentNode convertToNodeSpace:worldPoint];
     self.lb.position = contentPoint;
-    
-    [self schedule:@selector(updateTimeAndScore) interval:1.0f];
-    
+        
     if (!_timer) {
         _timer = [[CCTimer alloc] init];
     }
@@ -116,6 +113,20 @@
                                                  name:NOTIFICATION_TIME_UP
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(beginCountingTimer)
+                                                 name:BEGIN_COUNT
+                                               object:nil];
+    
+}
+
+- (void)beginCountingTimer{
+     [self schedule:@selector(updateTimeAndScore) interval:1.0f];
+}
+
+- (void)showTutorial{
+    CCScene * tutorScene = [CCBReader loadAsScene:@"TutorialHangman"];
+    [self addChild:tutorScene];
 }
 
 - (CGFloat)layoutHmWithNum:(NSUInteger)num{
@@ -204,8 +215,8 @@
 
 
 - (void)didFinishOneAnagram:(LetterBoard*)lb{
-//    self.index = self.model.anagramPairs.count - 1;
-    self.index++;
+   //self.index = self.model.anagramPairs.count - 1;
+   self.index++;
     self.totalScore += self.model.pointPerTile;
     [self enterNextWord];
 }
@@ -223,6 +234,7 @@
 }
 
 - (void)tryAgain{
+    [self saveHighScore];
     [self schedule:@selector(updateTimeAndScore) interval:1.0f];
     self.countDown = self.model.timeToSolve;
     _timeLabel.string = [Utils transTime:(time_t)self.countDown];
@@ -230,10 +242,15 @@
 }
 
 - (void)restoreToInitalLevel{
+    [self saveHighScore];
     self.index = 0;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:H_TOTAL_SCORE];
     self.totalScore = 0;
+    self.countDown = self.model.timeToSolve;
+    [self beginCountingTimer];
+    _scoreLabel.string = [NSString stringWithFormat:@"%lu", (unsigned long)self.totalScore];
+    _timeLabel.string = [Utils transTime:(time_t)self.countDown];
     [self enterNextWord];
 }
 
@@ -278,7 +295,15 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)saveHighScore{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSNumber * highNumber = [userDefaults objectForKey:H_HIGH_SCORE];
+    NSUInteger hscore = highNumber.integerValue < self.totalScore ? self.totalScore : highNumber.integerValue;
+    [userDefaults setObject:[NSNumber numberWithInteger:hscore] forKey:H_HIGH_SCORE];
+}
+
 - (void)onExit{
+    [self saveHighScore];
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:[NSNumber numberWithInteger:self.totalScore] forKey:H_TOTAL_SCORE];
     [userDefaults setObject:[NSNumber numberWithInteger:self.hintTime] forKey:HINT_H];

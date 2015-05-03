@@ -8,23 +8,38 @@
 	<array>
 		<array>
 			<integer>1</integer>
-			<string>an aisle</string>
-			<string>is a lane</string>
-		</array>
-		<array>
-			<integer>1</integer>
-			<string>limericks</string>
-			<string>slick rime</string>
-		</array>
-		<array>
-			<integer>1</integer>
 			<string>robed</string>
 			<string>bored</string>
 		</array>
 		<array>
 			<integer>1</integer>
-			<string>melon</string>
-			<string>lemon</string>
+			<string>posts</string>
+			<string>stops</string>
+		</array>
+		<array>
+			<integer>1</integer>
+			<string>adhere</string>
+			<string>header</string>
+		</array>
+		<array>
+			<integer>1</integer>
+			<string>debit card</string>
+			<string>bad credit</string>
+		</array>
+		<array>
+			<integer>1</integer>
+			<string>the shining</string>
+			<string>highest inn</string>
+		</array>
+		<array>
+			<integer>1</integer>
+			<string>idiot rant</string>
+			<string>radio tint</string>
+		</array>
+		<array>
+			<integer>1</integer>
+			<string>eat bread</string>
+			<string>a debater</string>
 		</array>
 		<array>
 			<integer>1</integer>
@@ -33,23 +48,18 @@
 		</array>
 		<array>
 			<integer>1</integer>
-			<string>meals</string>
-			<string>males</string>
+			<string>excepted</string>
+			<string>expected</string>
 		</array>
 		<array>
 			<integer>1</integer>
-			<string>listen</string>
-			<string>silent</string>
-		</array>
-		<array>
-			<integer>1</integer>
-			<string>march</string>
-			<string>charm</string>
+			<string>dynamite</string>
+			<string>may it end</string>
 		</array>
 	</array>
 	<key>pointsPerTile</key>
 	<integer>50</integer>
 	<key>timeToSolve</key>
-	<integer>360</integer>
+	<integer>1200</integer>
 </dict>
 </plist>

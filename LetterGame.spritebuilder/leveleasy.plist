@@ -42,7 +42,7 @@
 		</array>
 	</array>
 	<key>timeToSolve</key>
-	<integer>100</integer>
+	<integer>180</integer>
 	<key>pointsPerTile</key>
 	<integer>10</integer>
 	<key>hinttime</key>
