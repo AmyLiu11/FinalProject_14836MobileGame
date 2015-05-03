@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B77F1B2D17B978D7009739AE"
                BuildableName = "LetterGame.app"
-               BlueprintName = "LetterGame iOS"
-               ReferencedContainer = "container:LetterGame.xcodeproj">
+               BlueprintName = "Anagram iOS"
+               ReferencedContainer = "container:Anagram.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B77F1B2D17B978D7009739AE"
             BuildableName = "LetterGame.app"
-            BlueprintName = "LetterGame iOS"
-            ReferencedContainer = "container:LetterGame.xcodeproj">
+            BlueprintName = "Anagram iOS"
+            ReferencedContainer = "container:Anagram.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -53,8 +53,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B77F1B2D17B978D7009739AE"
             BuildableName = "LetterGame.app"
-            BlueprintName = "LetterGame iOS"
-            ReferencedContainer = "container:LetterGame.xcodeproj">
+            BlueprintName = "Anagram iOS"
+            ReferencedContainer = "container:Anagram.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -71,8 +71,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B77F1B2D17B978D7009739AE"
             BuildableName = "LetterGame.app"
-            BlueprintName = "LetterGame iOS"
-            ReferencedContainer = "container:LetterGame.xcodeproj">
+            BlueprintName = "Anagram iOS"
+            ReferencedContainer = "container:Anagram.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "927F6198196C771E000F43EF"
-               BuildableName = "LetterGame Android.app"
-               BlueprintName = "LetterGame Android"
-               ReferencedContainer = "container:LetterGame.xcodeproj">
+               BlueprintIdentifier = "7A4035FE19DDEE84007B6E8F"
+               BuildableName = "Anagram Mac.app"
+               BlueprintName = "Anagram Mac"
+               ReferencedContainer = "container:Anagram.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "927F6198196C771E000F43EF"
-            BuildableName = "LetterGame Android.app"
-            BlueprintName = "LetterGame Android"
-            ReferencedContainer = "container:LetterGame.xcodeproj">
+            BlueprintIdentifier = "7A4035FE19DDEE84007B6E8F"
+            BuildableName = "Anagram Mac.app"
+            BlueprintName = "Anagram Mac"
+            ReferencedContainer = "container:Anagram.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -51,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "927F6198196C771E000F43EF"
-            BuildableName = "LetterGame Android.app"
-            BlueprintName = "LetterGame Android"
-            ReferencedContainer = "container:LetterGame.xcodeproj">
+            BlueprintIdentifier = "7A4035FE19DDEE84007B6E8F"
+            BuildableName = "Anagram Mac.app"
+            BlueprintName = "Anagram Mac"
+            ReferencedContainer = "container:Anagram.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -69,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "927F6198196C771E000F43EF"
-            BuildableName = "LetterGame Android.app"
-            BlueprintName = "LetterGame Android"
-            ReferencedContainer = "container:LetterGame.xcodeproj">
+            BlueprintIdentifier = "7A4035FE19DDEE84007B6E8F"
+            BuildableName = "Anagram Mac.app"
+            BlueprintName = "Anagram Mac"
+            ReferencedContainer = "container:Anagram.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
