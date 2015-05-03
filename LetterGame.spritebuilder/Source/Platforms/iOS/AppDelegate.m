@@ -72,6 +72,10 @@
     [FBSDKAppEvents activateApp];
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application{
+     exit(0);
+}
+
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
